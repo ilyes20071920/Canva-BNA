@@ -1,0 +1,593 @@
+/***** Auth Wrapper Style *****/
+/*******************/
+.auth-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  min-width: 100%;
+  min-height: 100vh;
+  background: #fcfcfc;
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+  @media (min-width: 1200px) {
+    .container {
+      max-width: 1140px;
+    }
+  }
+
+  .auth-content {
+    position: relative;
+    padding: 15px;
+    z-index: 5;
+    &:not(.container) {
+      width: 400px;
+
+      .card-body {
+        padding: 40px 35px;
+      }
+    }
+    @media (-ms-high-contrast: none), (-ms-high-contrast: active) {
+      margin: 0 auto;
+    }
+  }
+}
+
+/***** Squares Style *****/
+/*******************/
+
+.square-top-right-blue {
+  position: absolute;
+  width: 15em;
+  height: 15em;
+  background: #162636;
+  border-radius: 0.625rem;
+  animation: spinOnce 10s linear forwards;
+  top: -5em;
+  right: -5em;
+}
+.square-bottom-left-blue {
+  position: absolute;
+  width: 15em;
+  height: 15em;
+  background: #162636;
+  border-radius: 0.625rem;
+  animation: spinOnce 10s linear forwards;
+  bottom: -5em;
+  left: -5em;
+}
+
+.square-top-right-green {
+  position: absolute;
+  width: 6.25rem;
+  height: 6.25rem;
+  border-radius: 0.625rem;
+  background-color: transparent;
+  border: 0.1875rem solid #37978f;
+  animation: spinOnce 10s linear forwards;
+  top: 4.6875rem;
+  right: 4.6875rem;
+}
+
+.square-bottom-left-green {
+  position: absolute;
+  width: 6.25rem;
+  height: 6.25rem;
+  border-radius: 0.625rem;
+  background-color: transparent;
+  border: 0.1875rem solid #37978f;
+  animation: spinOnce 10s linear forwards;
+  bottom: 4.6875rem;
+  left: 4.6875rem;
+}
+
+/*******  Logo Style *********/
+/*******************/
+.logo {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: -2em;
+  left: 0;
+}
+
+/* Left and right Parts */
+.logo-partx {
+  position: absolute;
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0;
+  z-index: 10;
+}
+
+/* Left part */
+.part-1 {
+  width: 5em;
+  height: 5em;
+  top: -55%;
+  left: 28%;
+  animation:
+    enterLeftPart1 0.8s forwards,
+    moveToTopLeft 1s 1s forwards;
+}
+
+/* Right part */
+.part-2 {
+  width: 6em;
+  height: 6em;
+  top: 65%;
+  right: 23%;
+  animation:
+    enterLeftPart2 0.8s forwards,
+    moveToBottomRight 1s 1s forwards;
+}
+
+/* Bna Bank and project name logo */
+.logo-container {
+  position: absolute;
+  left: 35%;
+  width: 500px;
+  top: 50%;
+  margin-top: -160px;
+  text-align: center;
+  transform: translateX(0);
+
+  animation:
+    enterRightLogo 0.8s forwards,
+    enterLeftLogo 1.2s 1s forwards;
+}
+
+.logo-name {
+  width: 33em;
+  display: block;
+  margin-left: auto;
+  margin-bottom: 0.3rem;
+}
+
+.project-name {
+  margin-top: 0.2em;
+  font-weight: bolder;
+  font-size: 0.65rem;
+  color: #777971;
+  letter-spacing: 0.08rem;
+}
+
+/*******  Form Style *********/
+/*******************/
+.form-container {
+  position: absolute;
+  top: 50%;
+  left: -10%;
+  width: 29.5em;
+  height: 28em;
+  background: transparent;
+  border: 2px solid rgba(235, 235, 235, 0.849);
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0);
+  animation: growAndFadeIn 1s 1s forwards;
+  z-index: 1;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.form-container form {
+  flex-direction: column;
+  text-align: left;
+  width: 80%;
+  margin-top: 10%;
+  gap: 1em;
+  margin-left: 10%;
+}
+
+.form-container label {
+  font-weight: thin;
+  margin-bottom: 0.313rem;
+}
+
+.form-container .form-title {
+  position: relative;
+  margin-top: 0.5em;
+  margin-bottom: 1rem;
+  font-size: 1.8em;
+  font-weight: bold;
+  color: #06534d;
+  text-align: center;
+}
+
+.error-message {
+  color: #dc3545;
+  font-size: 14px;
+  text-align: left;
+  margin-bottom: 1rem;
+  padding-left: 5px;
+}
+
+.input-group {
+  position: relative;
+  margin-bottom: 1.25rem;
+  border-radius: 10px;
+}
+
+.input-group label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 0.4rem;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 0.75rem 2.5rem 0.75rem 1rem;
+  border: none;
+  border-radius: 6px !important;
+  font-size: 14px;
+  background-color: #ebf0fa;
+  color: #333;
+  transition: box-shadow 0.2s;
+}
+
+.input-group input.invalid {
+  border: 1.5px solid rgba(255, 0, 0, 0.6);
+  box-shadow: 0 0 6px rgba(255, 0, 0, 0.4);
+}
+
+.input-group input.shake {
+  animation: verticalShake 0.35s ease-in-out;
+}
+
+.input-group .icon {
+  position: absolute;
+  right: 0.75rem;
+  top: 65%;
+  transform: translateY(-50%);
+  color: #7a828e;
+  cursor: pointer;
+}
+
+.login-btn {
+  width: 60%;
+  background-color: #06534d;
+  color: white;
+  border: none;
+  padding: 0.75rem;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-left: 20%;
+  border-radius: 6px;
+}
+
+.login-btn:hover {
+  background-color: #009970;
+}
+
+/******  Animations Style *******/
+/*******************/
+
+/* Square animation */
+.square-top-right-green.animate,
+.square-bottom-left-green.animate {
+  animation: fadeOut 0.8s ease forwards;
+}
+
+.square-top-right-blue.animate {
+  animation: growToNavbar 1.5s 1.5s ease forwards;
+}
+
+.square-bottom-left-blue.animate {
+  animation: growToSidebar 1.5s 1.5s ease forwards;
+}
+
+/* Left part animation */
+.part-1.animate {
+  opacity: 1;
+  animation: moveFromTopLeft 1s ease-in-out forwards;
+}
+
+/* Right part animation */
+.part-2.animate {
+  opacity: 1;
+  animation: moveFromBottomRight 1s ease-in-out forwards;
+}
+
+/* logo animation */
+.logo.animate {
+  animation: returnLeftLogoParts 1.5s 1.2s forwards;
+}
+
+.logo-container.animate {
+  animation:
+    returnLeftLogo 1s forwards,
+    returnRightLogo 1.5s 1.2s forwards;
+}
+
+/* form animation */
+.form-container.animate {
+  animation: shrinkAndFadeOut 0.8s ease-in-out forwards;
+}
+
+/******  Keyframes Animations *******/
+/*******************/
+
+/* green squre animation */
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+/* blue square animation */
+@keyframes spinOnce {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* left part square animation */
+@keyframes enterLeftPart1 {
+  from {
+    transform: translateX(-300%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(120%);
+    opacity: 1;
+  }
+}
+
+/* right part square animation */
+@keyframes enterLeftPart2 {
+  from {
+    transform: translateX(-385%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(-35%);
+    opacity: 1;
+  }
+}
+
+@keyframes enterLeftLogo {
+  to {
+    transform: translateX(20%);
+    opacity: 1;
+  }
+}
+
+@keyframes enterRightLogo {
+  from {
+    transform: translateX(300%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(-20%);
+    opacity: 1;
+  }
+}
+/* Keyframes for moving to top left corner */
+@keyframes moveToTopLeft {
+  to {
+    top: -570%;
+    left: -27%;
+  }
+}
+
+/* Keyframes for moving to bottom right corner */
+@keyframes moveToBottomRight {
+  to {
+    top: 690%;
+    right: -14%;
+  }
+}
+
+@keyframes growAndFadeIn {
+  0% {
+    opacity: 0;
+    filter: blur(8px);
+    transform: translate(-50%, -50%) scale(0);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+/***** Reverse Animation ******/
+@keyframes moveFromTopLeft {
+  from {
+    top: -570%;
+    left: -1.5rem;
+  }
+  to {
+    left: 10rem;
+  }
+}
+
+@keyframes moveFromBottomRight {
+  from {
+    top: 690%;
+    right: -1.65rem;
+  }
+  to {
+    right: 10rem;
+  }
+}
+
+@keyframes shrinkAndFadeOut {
+  0% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    filter: blur(8px);
+    transform: translate(-50%, -50%) scale(0);
+  }
+}
+
+@keyframes returnLeftLogo {
+  from {
+    transform: translateX(20%);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-8rem);
+  }
+}
+
+@keyframes returnRightLogo {
+  to {
+    transform: translateX(300%);
+  }
+}
+
+@keyframes returnLeftLogoParts {
+  to {
+    transform: translateX(-300%);
+  }
+}
+
+@keyframes verticalShake {
+  0% {
+    transform: translateY(0);
+  }
+  20% {
+    transform: translateY(-3px);
+  }
+  40% {
+    transform: translateY(3px);
+  }
+  60% {
+    transform: translateY(-2px);
+  }
+  80% {
+    transform: translateY(2px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+/******  Media Responsive *******/
+/*******************/
+
+@media (min-width: 992px) and (min-height: 825px) {
+  /* Growth animations */
+  @keyframes growToNavbar {
+    from {
+      top: -5em;
+      right: -5em;
+      width: 15em;
+      height: 15em;
+      border-radius: 0.625rem;
+    }
+    to {
+      right: 0;
+      top: 0;
+      width: 100%;
+      height: 56px;
+      border-radius: 0;
+    }
+  }
+
+  @keyframes growToSidebar {
+    from {
+      bottom: -5em;
+      left: -5em;
+      width: 15em;
+      height: 15em;
+      border-radius: 0.625rem;
+    }
+    to {
+      bottom: 0;
+      left: 0;
+      width: 255px;
+      height: 100%;
+      border-radius: 0;
+    }
+  }
+}
+
+@media (max-width: 991px) or (max-height: 824px) {
+  @keyframes growToNavbar {
+    from {
+      top: -5em;
+      right: -5em;
+      width: 10em;
+      height: 10em;
+      border-radius: 0.625rem;
+    }
+    to {
+      right: 0;
+      top: 0;
+      width: 100%;
+      height: 56px; /* Medium height for tablet */
+      border-radius: 0;
+    }
+  }
+
+  @keyframes growToSidebar {
+    from {
+      bottom: -5em;
+      left: -5em;
+      width: 10em;
+      height: 10em;
+      border-radius: 0.625rem;
+    }
+    to {
+      bottom: 0;
+      left: 0;
+      width: 255px; /* Medium width for tablet */
+      height: 100%;
+      border-radius: 0;
+    }
+  }
+}
+/* When animate class is applied - replace animations */
+
+/*********/
+
+@media (max-width: 75rem) or (max-height: 50rem) {
+  .square-top-right-blue {
+    top: -5em;
+    right: -5em;
+    width: 10em;
+    height: 10em;
+  }
+
+  .square-top-right-green {
+    width: 3.25rem;
+    height: 3.25rem;
+    top: 2rem;
+    right: 2rem;
+  }
+
+  .square-bottom-left-blue {
+    bottom: -5em;
+    left: -5em;
+    width: 10em;
+    height: 10em;
+  }
+
+  .square-bottom-left-green {
+    width: 3.25rem;
+    height: 3.25rem;
+    bottom: 2rem;
+    left: 2rem;
+  }
+
+  .project-name {
+    font-size: 1.2rem;
+  }}

@@ -1,0 +1,171 @@
+{
+  "info": {
+    "name": "Canva-BNA - User CRUD (Admin)",
+    "_postman_id": "canva-bna-user-crud-collection",
+    "description": "Complete User CRUD operations. Only ROLE_ADMIN can execute these requests (except Login).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Login (Admin)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "if (pm.response.code === 200) {",
+              "    const json = pm.response.json();",
+              "    pm.collectionVariables.set('token', json.token);",
+              "    console.log('Token stored in variables');",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"matricule\": 10001,\n    \"password\": \"admin123\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/auth/login",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "auth", "login"]
+        },
+        "description": "Run this first to get the admin token. It automatically saves the token for subsequent requests."
+      }
+    },
+    {
+      "name": "2. Add User (CREATE)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"matricule\": 99999,\n    \"password\": \"newuser123\",\n    \"structure\": \"Service Commercial\",\n    \"role\": \"ROLE_PRISE_EN_CHARGE\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/auth/register",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "auth", "register"]
+        },
+        "description": "Creates a new user. Admin only."
+      }
+    },
+    {
+      "name": "3. Get All Users (READ)",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/users",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "users"]
+        },
+        "description": "Returns a list of all registered users."
+      }
+    },
+    {
+      "name": "4. Get Single User (READ)",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/users/99999",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "users", "99999"]
+        },
+        "description": "Fetches a single user by matricule."
+      }
+    },
+    {
+      "name": "5. Modify User (UPDATE)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"structure\": \"Direction Marketing\",\n    \"role\": \"ROLE_CHEF_DIVISION\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/users/99999",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "users", "99999"]
+        },
+        "description": "Updates the structure and role of an existing user."
+      }
+    },
+    {
+      "name": "6. Deactivate User (DISABLE)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/users/99999/disable",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "users", "99999", "disable"]
+        },
+        "description": "Sets enabled = false for the specified user."
+      }
+    },
+    {
+      "name": "7. Activate User (ENABLE)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/users/99999/enable",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "users", "99999", "enable"]
+        },
+        "description": "Sets enabled = true for the specified user."
+      }
+    },
+    {
+      "name": "8. Delete User (DELETE)",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/users/99999",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "users", "99999"]
+        },
+        "description": "Permanently deletes the user from the database."
+      }
+    }
+  ]
+}
