@@ -66,6 +66,13 @@ public class SecurityConfig {
                         // Authenticated users only
                         .requestMatchers("/api/users/me/**").authenticated()
 
+                        // Business module — fine-grained control via @PreAuthorize on each controller method
+                        .requestMatchers("/api/clients/**").authenticated()
+                        .requestMatchers("/api/structures/**").authenticated()
+                        .requestMatchers("/api/actionnaires/**").authenticated()
+                        .requestMatchers("/api/comptes/**").authenticated()
+                        .requestMatchers("/api/mandataires/**").authenticated()
+
                         // Everything else requires authentication
                         .anyRequest().authenticated()
                 )

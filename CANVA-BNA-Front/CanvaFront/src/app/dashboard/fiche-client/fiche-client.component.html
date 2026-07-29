@@ -1,0 +1,593 @@
+<div class="page-container">
+  <!-- Toast Floating Notification -->
+  <div class="toast-container" *ngIf="successMessage || errorMessage">
+    <div class="toast-message toast-success" *ngIf="successMessage">
+      <span>✔</span>
+      <span>{{ successMessage }}</span>
+      <button class="toast-close" (click)="clearMessages()">✕</button>
+    </div>
+    <div class="toast-message toast-danger" *ngIf="errorMessage">
+      <span>⚠</span>
+      <span>{{ errorMessage }}</span>
+      <button class="toast-close" (click)="clearMessages()">✕</button>
+    </div>
+  </div>
+
+  <div class="header-section">
+    <h1 class="page-title">Signalétique Client Bancaire</h1>
+    
+    <!-- Actions Bar -->
+    <div class="actions-bar">
+      <!-- Search -->
+      <div class="search-box">
+        <input type="text" [(ngModel)]="searchIdentifiant" placeholder="Identifiant Client (ex: 1042986R)..." (keyup.enter)="searchClient()">
+        <button (click)="searchClient()" class="btn-search">Rechercher</button>
+      </div>
+
+      <!-- Select Dropdown -->
+      <div class="select-box">
+        <select [ngModel]="selectedClient" (ngModelChange)="selectClient($event)">
+          <option [ngValue]="null" disabled>Choisir un client ...</option>
+          <option *ngFor="let c of clients" [ngValue]="c">{{ c.identifiant }} - {{ c.relation }}</option>
+        </select>
+      </div>
+
+      <button class="btn-new-client" (click)="openAddClient()">+ Nouveau Client</button>
+    </div>
+  </div>
+
+  <!-- Messages -->
+  <div class="alert alert-success" *ngIf="successMessage">
+    <span>✔</span> {{ successMessage }}
+  </div>
+  <div class="alert alert-danger" *ngIf="errorMessage">
+    <span>⚠</span> {{ errorMessage }}
+  </div>
+
+  <!-- Client Found Profile -->
+  <div class="client-profile-container" *ngIf="selectedClient">
+    
+    <!-- Client Top Info Header -->
+    <div class="client-header-summary">
+      <div class="summary-item">
+        <span class="label">RELATION :</span>
+        <span class="value">{{ selectedClient.relation | uppercase }}</span>
+      </div>
+      <div class="summary-item">
+        <span class="label">SEGMENT :</span>
+        <span class="value">{{ selectedClient.segment || 'Corporates' }}</span>
+      </div>
+      <div class="summary-item">
+        <span class="label">AGENCE :</span>
+        <span class="value">{{ selectedClient.agence || '---' }}</span>
+      </div>
+      <div class="summary-item">
+        <span class="label">DIRECTION RÉGIONALE :</span>
+        <span class="value">{{ selectedClient.directionRegionale || '---' }}</span>
+      </div>
+    </div>
+
+    <!-- Main Navigation Tabs -->
+    <div class="main-tabs">
+      <button class="tab-btn" [class.active]="activeTab === 'Signalétique'" (click)="setActiveTab('Signalétique')">Signalétique</button>
+      <button class="tab-btn" [class.active]="activeTab === 'Sollicite'" (click)="setActiveTab('Sollicite')">Sollicite</button>
+      <button class="tab-btn" [class.active]="activeTab === 'Engagements'" (click)="setActiveTab('Engagements')">Engagements & Activité</button>
+      <button class="tab-btn" [class.active]="activeTab === 'Garanties'" (click)="setActiveTab('Garanties')">Garanties en entre possession</button>
+      <button class="tab-btn" [class.active]="activeTab === 'Conditions'" (click)="setActiveTab('Conditions')">Conditions Banque</button>
+      <button class="tab-btn" [class.active]="activeTab === 'Analyse'" (click)="setActiveTab('Analyse')">Analyse Financière</button>
+      <button class="tab-btn" [class.active]="activeTab === 'Avis'" (click)="setActiveTab('Avis')">Avis et Décision</button>
+    </div>
+
+    <!-- Tab Contents -->
+    <div class="tab-content-area" [ngSwitch]="activeTab">
+      
+      <!-- SIGNALETIQUE TAB -->
+      <div *ngSwitchCase="'Signalétique'">
+        
+        <!-- Stepper -->
+        <div class="stepper-container">
+          <div class="step-line"></div>
+          <div class="step-item" [class.active]="activeStep === 'Présentation Générale'" (click)="setActiveStep('Présentation Générale')">
+            <div class="step-dot"></div>
+            <span class="step-label">Présentation Générale</span>
+          </div>
+          <div class="step-item" [class.active]="activeStep === 'Dossier Juridique'" (click)="setActiveStep('Dossier Juridique')">
+            <div class="step-dot"></div>
+            <span class="step-label">Dossier Juridique</span>
+          </div>
+          <div class="step-item" [class.active]="activeStep === 'Profil de Risque'" (click)="setActiveStep('Profil de Risque')">
+            <div class="step-dot"></div>
+            <span class="step-label">Profil de Risque</span>
+          </div>
+        </div>
+
+        <!-- Stepper Content -->
+        <div class="step-content-area" [ngSwitch]="activeStep">
+          
+          <!-- STEP 1: PRESENTATION GENERALE -->
+          <div *ngSwitchCase="'Présentation Générale'">
+            
+            <!-- Card 1: Signalétique Client (Info Générales) -->
+            <div class="content-card">
+              <div class="card-header">
+                <span class="card-icon">📁</span> Signalétique Client (Informations Générales)
+              </div>
+              <div class="card-body grid-fields">
+                <div class="field-group">
+                  <label>Groupe</label>
+                  <input type="text" [(ngModel)]="selectedClient.groupe">
+                </div>
+                <div class="field-group">
+                  <label>Identifiant</label>
+                  <input type="text" [(ngModel)]="selectedClient.identifiant" readonly class="readonly-input">
+                </div>
+                <div class="field-group">
+                  <label>Siège Social</label>
+                  <input type="text" [(ngModel)]="selectedClient.siegeSocial">
+                </div>
+                <div class="field-group">
+                  <label>Activité</label>
+                  <input type="text" [(ngModel)]="selectedClient.activite">
+                </div>
+                <div class="field-group">
+                  <label>Relation (Dénomination)</label>
+                  <input type="text" [(ngModel)]="selectedClient.relation">
+                </div>
+                <div class="field-group">
+                  <label>Secteur</label>
+                  <input type="text" [(ngModel)]="selectedClient.secteur">
+                </div>
+                <div class="field-group">
+                  <label>Date d'entrée en relation</label>
+                  <input type="date" [(ngModel)]="selectedClient.dateEntreeRelation">
+                </div>
+                <div class="field-group">
+                  <label>Agence</label>
+                  <input type="text" [(ngModel)]="selectedClient.agence">
+                </div>
+                <div class="field-group">
+                  <label>Direction Régionale</label>
+                  <input type="text" [(ngModel)]="selectedClient.directionRegionale">
+                </div>
+                <div class="field-group">
+                  <label>Structure Rattachement</label>
+                  <select [(ngModel)]="selectedClient.structureId">
+                    <option [ngValue]="null">Aucune structure</option>
+                    <option *ngFor="let s of structures" [ngValue]="s.id">{{ s.nom }}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 2: Structure du Capital Social -->
+            <div class="content-card mt-4">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <span>📊 Structure du Capital Social (Forme juridique et Structure du Capital)</span>
+                <button class="btn-secondary-action" (click)="openAddActionnaire()">+ Ajouter Actionnaire</button>
+              </div>
+              <div class="card-body">
+                <div class="grid-fields mb-4">
+                  <div class="field-group">
+                    <label>Forme Juridique</label>
+                    <input type="text" [(ngModel)]="selectedClient.formeJuridique">
+                  </div>
+                  <div class="field-group">
+                    <label>Capital Social (en DT)</label>
+                    <input type="number" [(ngModel)]="selectedClient.capitalSocial">
+                  </div>
+                </div>
+
+                <!-- Actionnaires Table -->
+                <div class="table-wrapper">
+                  <table class="data-table">
+                    <thead>
+                      <tr>
+                        <th>Actionnaires / Associés</th>
+                        <th>Nombre d'actions</th>
+                        <th>Montant (DT)</th>
+                        <th>% Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let act of selectedClient.actionnaires">
+                        <td>{{ act.nom }}</td>
+                        <td>{{ act.nombreActions }}</td>
+                        <td>{{ act.montant | number:'1.3-3' }} DT</td>
+                        <td>{{ act.pourcentageActions }}%</td>
+                      </tr>
+                      <tr *ngIf="!selectedClient.actionnaires || selectedClient.actionnaires.length === 0">
+                        <td colspan="4" class="text-center text-red font-medium">
+                          Structure du capital à garnir au niveau du module SMILE.
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- STEP 2: DOSSIER JURIDIQUE -->
+          <div *ngSwitchCase="'Dossier Juridique'">
+            <div class="content-card">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <span>⚖ Dossier Juridique (Comptes & Signataires)</span>
+                <div class="card-actions">
+                  <button class="btn-secondary-action mr-2" (click)="openAddCompte()">+ Ajouter Compte</button>
+                  <button class="btn-secondary-action" (click)="openAddMandataire()">+ Ajouter Mandataire</button>
+                </div>
+              </div>
+              <div class="card-body">
+                <!-- Choisir un compte -->
+                <div class="compte-selector-section mb-4">
+                  <label class="compte-label">CHOISIR UN COMPTE *</label>
+                  <div class="d-flex gap-4 align-items-center">
+                    <select [(ngModel)]="selectedCompteId" (change)="onCompteChange()" class="compte-select">
+                      <option *ngFor="let cp of selectedClient.comptes" [value]="cp.numeroCompteComplet || (cp.codeGuichet + '-' + cp.codeProduit + '-' + cp.numCompte)">
+                        {{ cp.numeroCompteComplet || (cp.codeGuichet + '-' + cp.codeProduit + '-' + cp.numCompte) }} (Agence: {{ cp.agence || '---' }})
+                      </option>
+                      <option *ngIf="!selectedClient.comptes || selectedClient.comptes.length === 0" disabled>
+                        Aucun compte bancaire enregistré.
+                      </option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Mandataires Table -->
+                <h4 class="table-title">Liste des Mandataires (Mandats & Pouvoirs)</h4>
+                <div class="table-wrapper">
+                  <table class="data-table">
+                    <thead>
+                      <tr>
+                        <th>Num Mandat</th>
+                        <th>Num Demande</th>
+                        <th>Type Mandat</th>
+                        <th>Agence</th>
+                        <th>Mandant</th>
+                        <th>Date Création</th>
+                        <th>Date Début</th>
+                        <th>Date Fin</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let mand of selectedCompte?.mandataires">
+                        <td>{{ mand.numMandat }}</td>
+                        <td>{{ mand.numDemande }}</td>
+                        <td>{{ mand.typeMandat }}</td>
+                        <td>{{ mand.agence }}</td>
+                        <td><strong>{{ mand.mandant }}</strong></td>
+                        <td>{{ mand.dateCreation | date:'dd/MM/yyyy' }}</td>
+                        <td>{{ mand.dateDebut | date:'dd/MM/yyyy' }}</td>
+                        <td>{{ mand.dateFin | date:'dd/MM/yyyy' }}</td>
+                      </tr>
+                      <tr *ngIf="!selectedCompte?.mandataires || selectedCompte?.mandataires?.length === 0">
+                        <td colspan="8" class="text-center text-muted">
+                          Aucun mandataire configuré pour ce compte.
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 3: PROFIL DE RISQUE -->
+          <div *ngSwitchCase="'Profil de Risque'">
+            <div class="content-card">
+              <div class="card-header">🛡 Profil de Risque</div>
+              <div class="card-body">
+                <p class="text-muted">Analyse de profil de risque et historique d'engagements non disponible dans cette version.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Footer / Save buttons -->
+        <div class="canevas-footer">
+          <button class="btn-save-canevas" (click)="updateClient()">💾 Enregistrer Canevas</button>
+        </div>
+
+      </div>
+
+      <!-- ENGAGEMENTS TAB -->
+      <div *ngSwitchCase="'Engagements'">
+        <!-- Stepper -->
+        <div class="stepper-container">
+          <div class="step-line"></div>
+          <div class="step-item" [class.active]="engagementActiveStep === 'Compte et dépôts'" (click)="setEngagementActiveStep('Compte et dépôts')">
+            <div class="step-dot"></div>
+            <span class="step-label">Compte et dépôts</span>
+          </div>
+          <div class="step-item" [class.active]="engagementActiveStep === 'Engagements (BCT, BNA)'" (click)="setEngagementActiveStep('Engagements (BCT, BNA)')">
+            <div class="step-dot"></div>
+            <span class="step-label">Engagement (BCT, BNA)</span>
+          </div>
+          <div class="step-item" [class.active]="engagementActiveStep === 'Activité'" (click)="setEngagementActiveStep('Activité')">
+            <div class="step-dot"></div>
+            <span class="step-label">Activité</span>
+          </div>
+        </div>
+
+        <!-- Stepper Content -->
+        <div class="step-content-area" [ngSwitch]="engagementActiveStep">
+          <!-- STEP 1: COMPTE ET DEPOTS -->
+          <div *ngSwitchCase="'Compte et dépôts'">
+             <div *ngIf="isLoadingEngagements" class="text-center p-4">Chargement...</div>
+             <div *ngIf="!isLoadingEngagements && engagementsActiviteData">
+                
+                <div class="content-card">
+                  <div class="card-header">
+                    <span class="card-icon">≡</span> Liste des comptes valides
+                  </div>
+                  <div class="card-body p-0">
+                    <div class="table-wrapper m-0">
+                      <table class="data-table">
+                        <thead>
+                          <tr>
+                            <th>N° Compte</th>
+                            <th>Date Ouverture</th>
+                            <th>Type d'autorisation</th>
+                            <th>Autorisation</th>
+                            <th>Date Autorisation</th>
+                            <th class="text-right">Solde</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let compte of engagementsActiviteData.comptes">
+                            <td>{{ compte.numeroCompte }}</td>
+                            <td>{{ compte.dateOuverture !== null && compte.dateOuverture !== undefined ? (compte.dateOuverture | date:'dd/MM/yyyy') : '-' }}</td>
+                            <td>{{ compte.typeAutorisation !== null && compte.typeAutorisation !== undefined ? compte.typeAutorisation : '-' }}</td>
+                            <td>{{ compte.autorisation !== null && compte.autorisation !== undefined ? (compte.autorisation | number:'1.3-3') : '-' }}</td>
+                            <td>{{ compte.dateAutorisation !== null && compte.dateAutorisation !== undefined ? (compte.dateAutorisation | date:'dd/MM/yyyy') : '-' }}</td>
+                            <td class="text-right">{{ compte.solde !== null && compte.solde !== undefined ? (compte.solde | number:'1.3-3') : '-' }}</td>
+                          </tr>
+                          <tr *ngIf="!engagementsActiviteData.comptes || engagementsActiviteData.comptes.length === 0">
+                            <td colspan="6" class="text-center text-muted p-3">Aucun compte valide trouvé.</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="content-card mt-4">
+                  <div class="card-header">
+                    <span class="card-icon">≡</span> Solde algébrique par type de compte
+                  </div>
+                  <div class="card-body p-0">
+                    <div class="table-wrapper m-0" *ngIf="engagementsActiviteData.soldesDisponibles">
+                      <table class="data-table">
+                        <thead>
+                          <tr>
+                            <th>Type de compte</th>
+                            <th class="text-right">Solde algébrique</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let s of engagementsActiviteData.soldesParType">
+                            <td>{{ s.typeCompte }}</td>
+                            <td class="text-right">{{ s.soldeAlgebrique | number:'1.3-3' }}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div class="p-4 text-center text-muted" *ngIf="!engagementsActiviteData.soldesDisponibles">
+                      Les données de solde ne sont pas disponibles.
+                    </div>
+                  </div>
+                </div>
+
+             </div>
+          </div>
+
+          <!-- STEP 3: ACTIVITE -->
+          <div *ngSwitchCase="'Activité'">
+             <div *ngIf="isLoadingActivite" class="text-center p-4">Chargement...</div>
+             <div *ngIf="!isLoadingActivite && activiteData">
+                
+                <div class="content-card">
+                  <div class="card-header d-flex flex-column align-items-start">
+                    <div class="d-flex align-items-center">
+                      <span class="card-icon">📈</span> Mouvements confiés
+                    </div>
+                    <span class="text-muted small mt-1" style="font-weight: normal; font-size: 0.85em;">Historique des flux confiés à la BNA / Unité : en Dinars</span>
+                  </div>
+                  <div class="card-body p-0">
+                    <div class="table-wrapper m-0" *ngIf="activiteData.dataAvailable">
+                      <table class="data-table">
+                        <thead>
+                          <tr>
+                            <th>Année</th>
+                            <th class="text-right">Total Mouvement</th>
+                            <th class="text-right">CA</th>
+                            <th class="text-right">Part Confiée</th>
+                            <th class="text-right">Part Engagement</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let act of activiteData.activities">
+                            <td>{{ act.annee }}</td>
+                            <td class="text-right">{{ act.totalMouvement !== null && act.totalMouvement !== undefined ? (act.totalMouvement | number:'1.3-3') : '-' }}</td>
+                            <td class="text-right">{{ act.ca !== null && act.ca !== undefined ? (act.ca | number:'1.3-3') : '-' }}</td>
+                            <td class="text-right">{{ act.partConfiee !== null && act.partConfiee !== undefined ? (act.partConfiee | number:'1.2-2') + '%' : '-' }}</td>
+                            <td class="text-right">{{ act.partEngagement !== null && act.partEngagement !== undefined ? (act.partEngagement | number:'1.2-2') + '%' : '-' }}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div class="p-4 text-center text-muted font-medium" *ngIf="!activiteData.dataAvailable">
+                      Aucune donnée d'activité n'est disponible.
+                    </div>
+                  </div>
+                </div>
+                
+             </div>
+          </div>
+
+          <!-- OTHER STEPS -->
+          <div *ngSwitchDefault>
+             <div class="content-card">
+               <div class="card-body text-center text-muted p-5">
+                 Fonctionnalité à venir.
+               </div>
+             </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- OTHER TABS (Placeholder matching BNA design) -->
+      <div *ngSwitchDefault>
+        <div class="content-card">
+          <div class="card-header">{{ activeTab }}</div>
+          <div class="card-body">
+            <p class="text-muted">Cet onglet ({{ activeTab }}) fait partie du module signalétique global. Les fonctionnalités associées seront activées dans les prochaines releases.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<!-- ================================================================ MODALS -->
+<!-- ================================================================ -->
+
+<!-- Add Client Modal -->
+<div class="modal-overlay" *ngIf="showAddClientModal">
+  <div class="modal-card">
+    <div class="modal-header">Ajouter une Fiche Client</div>
+    <div class="modal-body grid-fields">
+      <div class="field-group">
+        <label>Identifiant *</label>
+        <input type="text" [(ngModel)]="newClientPayload.identifiant" placeholder="ex: 1042986R">
+      </div>
+      <div class="field-group">
+        <label>Groupe *</label>
+        <input type="text" [(ngModel)]="newClientPayload.groupe" placeholder="ex: BOUDOKHANE MOKHTAR">
+      </div>
+      <div class="field-group">
+        <label>Relation *</label>
+        <input type="text" [(ngModel)]="newClientPayload.relation" placeholder="ex: STE ENT. BOUDOKHANE MOKHTAR">
+      </div>
+      <div class="field-group">
+        <label>Secteur</label>
+        <input type="text" [(ngModel)]="newClientPayload.secteur">
+      </div>
+      <div class="field-group">
+        <label>Forme Juridique</label>
+        <input type="text" [(ngModel)]="newClientPayload.formeJuridique">
+      </div>
+      <div class="field-group">
+        <label>Capital Social (DT)</label>
+        <input type="number" [(ngModel)]="newClientPayload.capitalSocial">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" (click)="showAddClientModal = false">Annuler</button>
+      <button class="btn-save" (click)="saveClient()">Créer</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Compte Modal -->
+<div class="modal-overlay" *ngIf="showAddCompteModal">
+  <div class="modal-card">
+    <div class="modal-header">Ajouter un Compte Bancaire</div>
+    <div class="modal-body grid-fields">
+      <div class="field-group">
+        <label>Code Guichet *</label>
+        <input type="text" [(ngModel)]="newComptePayload.codeGuichet" placeholder="ex: 123">
+      </div>
+      <div class="field-group">
+        <label>Code Produit *</label>
+        <input type="text" [(ngModel)]="newComptePayload.codeProduit" placeholder="ex: IM02">
+      </div>
+      <div class="field-group">
+        <label>Numéro de Compte *</label>
+        <input type="text" [(ngModel)]="newComptePayload.numCompte" placeholder="ex: 192019">
+      </div>
+      <div class="field-group">
+        <label>Agence</label>
+        <input type="text" [(ngModel)]="newComptePayload.agence" placeholder="ex: 146">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" (click)="showAddCompteModal = false">Annuler</button>
+      <button class="btn-save" (click)="saveCompte()">Ajouter</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Actionnaire Modal -->
+<div class="modal-overlay" *ngIf="showAddActionnaireModal">
+  <div class="modal-card">
+    <div class="modal-header">Ajouter un Actionnaire / Associé</div>
+    <div class="modal-body grid-fields">
+      <div class="field-group">
+        <label>Nom Complet *</label>
+        <input type="text" [(ngModel)]="newActionnairePayload.nom" placeholder="Nom de l'actionnaire">
+      </div>
+      <div class="field-group">
+        <label>Nombre d'actions *</label>
+        <input type="number" [(ngModel)]="newActionnairePayload.nombreActions">
+      </div>
+      <div class="field-group">
+        <label>Montant (DT)</label>
+        <input type="number" [(ngModel)]="newActionnairePayload.montant">
+      </div>
+      <div class="field-group">
+        <label>Pourcentage d'actions (%)</label>
+        <input type="number" [(ngModel)]="newActionnairePayload.pourcentageActions">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" (click)="showAddActionnaireModal = false">Annuler</button>
+      <button class="btn-save" (click)="saveActionnaire()">Ajouter</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Mandataire Modal -->
+<div class="modal-overlay" *ngIf="showAddMandataireModal">
+  <div class="modal-card">
+    <div class="modal-header">Ajouter un Mandataire</div>
+    <div class="modal-body grid-fields">
+      <div class="field-group">
+        <label>Num Mandat</label>
+        <input type="text" [(ngModel)]="newMandatairePayload.numMandat">
+      </div>
+      <div class="field-group">
+        <label>Num Demande</label>
+        <input type="text" [(ngModel)]="newMandatairePayload.numDemande">
+      </div>
+      <div class="field-group">
+        <label>Type Mandat</label>
+        <input type="text" [(ngModel)]="newMandatairePayload.typeMandat">
+      </div>
+      <div class="field-group">
+        <label>Habilité (Mandant) *</label>
+        <input type="text" [(ngModel)]="newMandatairePayload.mandant" placeholder="ex: BOUDOKHANE MAJDI">
+      </div>
+      <div class="field-group">
+        <label>Date Création</label>
+        <input type="date" [(ngModel)]="newMandatairePayload.dateCreation">
+      </div>
+      <div class="field-group">
+        <label>Date Début</label>
+        <input type="date" [(ngModel)]="newMandatairePayload.dateDebut">
+      </div>
+      <div class="field-group">
+        <label>Date Fin</label>
+        <input type="date" [(ngModel)]="newMandatairePayload.dateFin">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" (click)="showAddMandataireModal = false">Annuler</button>
+      <button class="btn-save" (click)="saveMandataire()">Ajouter</button>
+    </div>
+  </div>
+</div>

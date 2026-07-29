@@ -2,6 +2,7 @@ package tn.esprit.canvabna.exception;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -117,12 +118,36 @@ public class GlobalExceptionHandler {
 
     // ---------------------------------------------------------------- Custom domain errors
 
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ApiError> handleResourceNotFound(
+            final ResourceNotFoundException ex,
+            final HttpServletRequest request) {
+        log.warn("Resource not found on path {}: {}", request.getRequestURI(), ex.getMessage());
+        return buildResponse(HttpStatus.NOT_FOUND, ex.getMessage(), request);
+    }
+
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ApiError> handleIllegalArgument(
             final IllegalArgumentException ex,
             final HttpServletRequest request) {
         log.warn("Illegal argument on path {}: {}", request.getRequestURI(), ex.getMessage());
         return buildResponse(HttpStatus.BAD_REQUEST, ex.getMessage(), request);
+    }
+
+    // ---------------------------------------------------------------- Data integrity errors
+
+    /**
+     * Handles duplicate composite key violations (e.g. trying to add a compte that already exists).
+     * Returns HTTP 409 Conflict with a descriptive message instead of a generic 500.
+     */
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<ApiError> handleDataIntegrity(
+            final DataIntegrityViolationException ex,
+            final HttpServletRequest request) {
+        log.warn("Data integrity violation on path {}: {}", request.getRequestURI(), ex.getMostSpecificCause().getMessage());
+        return buildResponse(HttpStatus.CONFLICT,
+                "Cet enregistrement existe déjà ou viole une contrainte d'intégrité de la base de données.",
+                request);
     }
 
     // ---------------------------------------------------------------- Catch-all

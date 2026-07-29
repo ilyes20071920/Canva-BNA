@@ -11,6 +11,10 @@ export const routes: Routes = [
         path: 'users',
         loadComponent: () => import('./dashboard/user-management/user-management.component').then(m => m.UserManagementComponent)
       },
+      {
+        path: 'fiche-client',
+        loadComponent: () => import('./dashboard/fiche-client/fiche-client.component').then(m => m.FicheClientComponent)
+      },
       { path: '', redirectTo: 'users', pathMatch: 'full' }
     ]
   },
