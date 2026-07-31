@@ -57,10 +57,37 @@ export interface SoldeParTypeResponse {
   soldeAlgebrique: number;
 }
 
+export interface EngagementDetailResponse {
+  formeCredit: string;
+  numCompte?: string | null;
+  autorise?: number | null;
+  echeance?: string | null;
+  encours?: number | null;
+  impayes?: number | null;
+  ir?: number | null;
+  anciennete?: string | null;
+  detailsImpayes?: string | null;
+}
+
+export interface EngagementBnaRowResponse {
+  code: string;
+  forme: string;
+  autorise?: number | null;
+  echeance?: string | null;
+  encours?: number | null;
+  impayes?: number | null;
+  ir?: number | null;
+  ancienneteImpayes?: string | null;
+  detailsTitle?: string;
+  subtotalLabel?: string;
+  details?: EngagementDetailResponse[];
+}
+
 export interface EngagementsActiviteResponse {
   comptes: CompteValideResponse[];
   soldesDisponibles: boolean;
   soldesParType: SoldeParTypeResponse[];
+  engagementsBna?: EngagementBnaRowResponse[];
 }
 
 export interface ActiviteAnneeResponse {
@@ -120,6 +147,7 @@ export class FicheClientComponent implements OnInit {
   engagementActiveStep: string = 'Compte et dépôts'; // 'Compte et dépôts' | 'Engagements (BCT, BNA)' | 'Activité'
   engagementsActiviteData: EngagementsActiviteResponse | null = null;
   isLoadingEngagements: boolean = false;
+  expandedEngagementCode: string | null = null;
   
   activiteData: ActiviteResponse | null = null;
   isLoadingActivite: boolean = false;
@@ -283,6 +311,10 @@ export class FicheClientComponent implements OnInit {
     if (step === 'Activité') {
       this.loadActivite();
     }
+  }
+
+  toggleEngagementRow(code: string): void {
+    this.expandedEngagementCode = this.expandedEngagementCode === code ? null : code;
   }
 
   loadActivite(): void {

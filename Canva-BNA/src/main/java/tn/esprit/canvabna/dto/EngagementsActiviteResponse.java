@@ -17,4 +17,5 @@ public class EngagementsActiviteResponse {
     private List<CompteValideResponse> comptes;
     private boolean soldesDisponibles;
     private List<SoldeParTypeResponse> soldesParType;
+    private List<EngagementBnaRowResponse> engagementsBna;
 }

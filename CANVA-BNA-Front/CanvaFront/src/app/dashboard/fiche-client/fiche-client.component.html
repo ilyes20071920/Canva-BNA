@@ -427,6 +427,138 @@
              </div>
           </div>
 
+          <!-- STEP 2: ENGAGEMENT (BCT, BNA) -->
+          <div *ngSwitchCase="'Engagements (BCT, BNA)'">
+             <div *ngIf="isLoadingEngagements" class="text-center p-4">Chargement...</div>
+             <div *ngIf="!isLoadingEngagements && engagementsActiviteData">
+                
+                <!-- Card 1: Engagements BNA (DT) -->
+                <div class="content-card">
+                  <div class="card-header">
+                    <span class="card-icon">📊</span> Engagements BNA (DT)
+                  </div>
+                  <div class="card-body p-0">
+                    <div class="table-wrapper m-0">
+                      <table class="data-table">
+                        <thead>
+                          <tr>
+                            <th style="width: 40px;"></th>
+                            <th>Forme</th>
+                            <th class="text-right">Autorisé</th>
+                            <th class="text-center">Echéance</th>
+                            <th class="text-right">Encours</th>
+                            <th class="text-right">Impayés</th>
+                            <th class="text-right">IR</th>
+                            <th class="text-center">Ancienneté des Impayés</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <ng-container *ngFor="let row of engagementsActiviteData.engagementsBna">
+                            <!-- Parent Row -->
+                            <tr class="clickable-row" (click)="toggleEngagementRow(row.code)">
+                              <td class="text-center cursor-pointer">
+                                <span class="expand-arrow" [class.expanded]="expandedEngagementCode === row.code">
+                                  {{ expandedEngagementCode === row.code ? '▼' : '❯' }}
+                                </span>
+                              </td>
+                              <td class="font-semibold">{{ row.forme }}</td>
+                              <td class="text-right">{{ row.autorise !== null && row.autorise !== undefined ? (row.autorise | number:'1.0-0') : '' }}</td>
+                              <td class="text-center">{{ row.echeance ? (row.echeance | date:'dd/MM/yyyy') : '----' }}</td>
+                              <td class="text-right font-semibold">{{ row.encours !== null && row.encours !== undefined ? (row.encours | number:'1.0-0') : '' }}</td>
+                              <td class="text-right">{{ row.impayes !== null && row.impayes !== undefined ? (row.impayes | number:'1.0-0') : '' }}</td>
+                              <td class="text-right">{{ row.ir !== null && row.ir !== undefined ? (row.ir | number:'1.0-0') : '' }}</td>
+                              <td class="text-center">{{ row.ancienneteImpayes || '' }}</td>
+                            </tr>
+
+                            <!-- Expanded Child Detail Row -->
+                            <tr *ngIf="expandedEngagementCode === row.code" class="expanded-row">
+                              <td colspan="8" class="p-3 bg-light-detail">
+                                <div class="detail-container">
+                                  <div class="detail-header-title text-uppercase font-bold mb-2 text-warning-dark">
+                                    {{ row.detailsTitle || ('DÉTAILS : ' + row.forme) }}
+                                  </div>
+                                  
+                                  <table class="data-table child-detail-table w-100">
+                                    <thead>
+                                      <tr>
+                                        <th>Forme de Crédit</th>
+                                        <th>Num. Compte</th>
+                                        <th class="text-right">Autorisé</th>
+                                        <th class="text-center">Echéance</th>
+                                        <th class="text-right">Encours</th>
+                                        <th class="text-right">Impayés</th>
+                                        <th class="text-right">IR</th>
+                                        <th class="text-center">Ancienneté</th>
+                                        <th class="text-center">Détails Impayés</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr *ngFor="let det of row.details">
+                                        <td>{{ det.formeCredit }}</td>
+                                        <td>{{ det.numCompte || '' }}</td>
+                                        <td class="text-right">{{ det.autorise !== null && det.autorise !== undefined ? (det.autorise | number:'1.0-0') : '' }}</td>
+                                        <td class="text-center">{{ det.echeance ? (det.echeance | date:'dd/MM/yyyy') : '----' }}</td>
+                                        <td class="text-right font-semibold">{{ det.encours !== null && det.encours !== undefined ? (det.encours | number:'1.0-0') : '' }}</td>
+                                        <td class="text-right">{{ det.impayes !== null && det.impayes !== undefined ? (det.impayes | number:'1.0-0') : '' }}</td>
+                                        <td class="text-right">{{ det.ir !== null && det.ir !== undefined ? (det.ir | number:'1.0-0') : '' }}</td>
+                                        <td class="text-center">{{ det.anciennete || '' }}</td>
+                                        <td class="text-center">{{ det.detailsImpayes || '' }}</td>
+                                      </tr>
+
+                                      <!-- Empty State if no detail rows -->
+                                      <tr *ngIf="!row.details || row.details.length === 0">
+                                        <td colspan="9" class="text-center text-muted p-2">Aucun détail disponible pour cet engagement.</td>
+                                      </tr>
+
+                                      <!-- Subtotal Row -->
+                                      <tr *ngIf="row.details && row.details.length > 0" class="subtotal-row font-bold">
+                                        <td>{{ row.subtotalLabel || ('S/ Total ' + row.forme) }}</td>
+                                        <td></td>
+                                        <td class="text-right">{{ row.autorise !== null && row.autorise !== undefined ? (row.autorise | number:'1.0-0') : '' }}</td>
+                                        <td></td>
+                                        <td class="text-right">{{ row.encours !== null && row.encours !== undefined ? (row.encours | number:'1.0-0') : '' }}</td>
+                                        <td class="text-right">{{ row.impayes !== null && row.impayes !== undefined ? (row.impayes | number:'1.0-0') : '' }}</td>
+                                        <td class="text-right">{{ row.ir !== null && row.ir !== undefined ? (row.ir | number:'1.0-0') : '' }}</td>
+                                        <td></td>
+                                        <td></td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </div>
+                              </td>
+                            </tr>
+                          </ng-container>
+
+                          <!-- Total Footer Row -->
+                          <tr class="total-footer-row font-bold">
+                            <td></td>
+                            <td>TOTAL</td>
+                            <td class="text-right">0</td>
+                            <td class="text-center">----</td>
+                            <td class="text-right">25 153 851</td>
+                            <td class="text-right">0</td>
+                            <td class="text-right">0</td>
+                            <td class="text-center"></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Card 2: Engagement BCT (DT) -->
+                <div class="content-card mt-4">
+                  <div class="card-header">
+                    <span class="card-icon">📊</span> Engagement BCT (DT)
+                  </div>
+                  <div class="card-body p-4 text-center text-muted">
+                    Les données d'engagement BCT sont en cours d'intégration.
+                  </div>
+                </div>
+
+             </div>
+          </div>
+
           <!-- OTHER STEPS -->
           <div *ngSwitchDefault>
              <div class="content-card">
