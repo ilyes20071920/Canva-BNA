@@ -58,12 +58,17 @@ export interface SoldeParTypeResponse {
 }
 
 export interface EngagementDetailResponse {
+  numDecisionCrd?: string | null;
   formeCredit: string;
   numCompte?: string | null;
   autorise?: number | null;
+  utilise?: number | null;
   echeance?: string | null;
+  echFinale?: string | null;
+  aEchoirEnPrincipal?: number | null;
   encours?: number | null;
   impayes?: number | null;
+  impayesPI?: number | null;
   ir?: number | null;
   anciennete?: string | null;
   detailsImpayes?: string | null;

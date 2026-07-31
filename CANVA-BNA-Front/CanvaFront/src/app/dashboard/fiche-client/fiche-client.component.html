@@ -478,7 +478,59 @@
                                     {{ row.detailsTitle || ('DÉTAILS : ' + row.forme) }}
                                   </div>
                                   
-                                  <table class="data-table child-detail-table w-100">
+                                  <!-- Child Table for BPN / CMT (10 Columns) -->
+                                  <table class="data-table child-detail-table w-100" *ngIf="row.code === 'BPN' || row.code === 'CMT'">
+                                    <thead>
+                                      <tr>
+                                        <th>Num. Décision Crd.</th>
+                                        <th class="text-right">Autorisé</th>
+                                        <th class="text-right">Utilisé</th>
+                                        <th>Forme de Crédit</th>
+                                        <th class="text-center">Éch. Finale</th>
+                                        <th class="text-right">À Échoir en Principal</th>
+                                        <th class="text-right">Impayés (P + I)</th>
+                                        <th class="text-right">IR</th>
+                                        <th class="text-center">Ancienneté</th>
+                                        <th class="text-center">Détails Impayés</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr *ngFor="let det of row.details">
+                                        <td>{{ det.numDecisionCrd || '' }}</td>
+                                        <td class="text-right">{{ det.autorise !== null && det.autorise !== undefined ? (det.autorise | number:'1.0-0') : '' }}</td>
+                                        <td class="text-right">{{ det.utilise !== null && det.utilise !== undefined ? (det.utilise | number:'1.0-0') : '' }}</td>
+                                        <td>{{ det.formeCredit }}</td>
+                                        <td class="text-center">{{ det.echFinale ? (det.echFinale | date:'dd/MM/yyyy') : '' }}</td>
+                                        <td class="text-right">{{ det.aEchoirEnPrincipal !== null && det.aEchoirEnPrincipal !== undefined ? (det.aEchoirEnPrincipal | number:'1.0-0') : '' }}</td>
+                                        <td class="text-right">{{ det.impayesPI !== null && det.impayesPI !== undefined ? (det.impayesPI | number:'1.0-0') : '' }}</td>
+                                        <td class="text-right">{{ det.ir !== null && det.ir !== undefined ? (det.ir | number:'1.0-0') : '' }}</td>
+                                        <td class="text-center">{{ det.anciennete || '' }}</td>
+                                        <td class="text-center">{{ det.detailsImpayes || '' }}</td>
+                                      </tr>
+
+                                      <!-- Empty State if no detail rows -->
+                                      <tr *ngIf="!row.details || row.details.length === 0">
+                                        <td colspan="10" class="text-center text-muted p-2">Aucun détail disponible pour cet engagement.</td>
+                                      </tr>
+
+                                      <!-- Subtotal Row -->
+                                      <tr *ngIf="row.details && row.details.length > 0" class="subtotal-row font-bold">
+                                        <td>{{ row.subtotalLabel || ('S/ Total ' + row.forme) }}</td>
+                                        <td class="text-right">{{ row.autorise !== null && row.autorise !== undefined ? (row.autorise | number:'1.0-0') : '' }}</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="text-right">0</td>
+                                        <td class="text-right">0</td>
+                                        <td class="text-right">0</td>
+                                        <td></td>
+                                        <td></td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+
+                                  <!-- Standard Child Table for other engagements (9 Columns) -->
+                                  <table class="data-table child-detail-table w-100" *ngIf="row.code !== 'BPN' && row.code !== 'CMT'">
                                     <thead>
                                       <tr>
                                         <th>Forme de Crédit</th>
