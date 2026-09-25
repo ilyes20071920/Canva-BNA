@@ -228,6 +228,34 @@ INSERT INTO comptes (code_guichet, code_produit, num_compte, agence, client_id)
 VALUES ('120', 'DV20', '005678', '120', 2);
 
 -- ============================================================
+-- Table: garanties (guarantees held by the bank for a client)
+-- NOTE: This table is created automatically by Hibernate
+--       (spring.jpa.hibernate.ddl-auto=update).
+--       This DDL block is kept here for documentation only.
+--       DO NOT run this script against a Hibernate-managed DB.
+--       Dev/test data is seeded by DevGuaranteeSeeder (@Profile("!prod")).
+-- ============================================================
+-- CREATE TABLE IF NOT EXISTS garanties (
+--     id              BIGINT          NOT NULL AUTO_INCREMENT,
+--     client_id       BIGINT          NOT NULL,
+--     libelle         VARCHAR(1000),
+--     consistance     VARCHAR(500),
+--     valeur          DECIMAL(15,3),
+--     date_expertise  DATE,
+--     rang            INT,
+--     beneficiaire    VARCHAR(255),
+--     charges         DECIMAL(15,3),
+--     affectation     VARCHAR(255),
+--     num_seq_gar     VARCHAR(50),
+--     id_credit       VARCHAR(50),
+--
+--     CONSTRAINT pk_garanties           PRIMARY KEY (id),
+--     CONSTRAINT fk_garanties_client    FOREIGN KEY (client_id)
+--         REFERENCES clients(id) ON DELETE CASCADE
+-- );
+
+
+-- ============================================================
 -- PostgreSQL equivalent (comment out MySQL block above and
 -- uncomment the block below when using PostgreSQL)
 -- ============================================================

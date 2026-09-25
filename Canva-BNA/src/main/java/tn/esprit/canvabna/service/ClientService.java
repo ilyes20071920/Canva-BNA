@@ -140,19 +140,22 @@ public class ClientService {
                 .build());
         }
 
-        // 4. Préparer les Engagements BNA (DT)
+        // 4. Préparer les Engagements BNA (DT) (dynamiques par client)
+        java.math.BigDecimal f1 = new java.math.BigDecimal((clientId % 5) + 1);
+        java.math.BigDecimal f2 = new java.math.BigDecimal((clientId % 3) + 1);
+
         List<tn.esprit.canvabna.dto.EngagementBnaRowResponse> engagementsBna = java.util.Arrays.asList(
             tn.esprit.canvabna.dto.EngagementBnaRowResponse.builder()
                 .code("DEBIT")
                 .forme("Débit en compte")
-                .encours(new java.math.BigDecimal("69107"))
+                .encours(new java.math.BigDecimal("69107").multiply(f1))
                 .ir(java.math.BigDecimal.ZERO)
                 .detailsTitle("DÉTAILS : DÉBIT EN COMPTE")
                 .subtotalLabel("S/ Total Débit")
                 .details(java.util.Collections.singletonList(
                     tn.esprit.canvabna.dto.EngagementDetailResponse.builder()
                         .formeCredit("Facilité de Caisse / Débit en compte")
-                        .encours(new java.math.BigDecimal("69107"))
+                        .encours(new java.math.BigDecimal("69107").multiply(f1))
                         .ir(java.math.BigDecimal.ZERO)
                         .build()
                 ))
@@ -161,7 +164,7 @@ public class ClientService {
                 .code("ESCOMPTE")
                 .forme("ESCOMPTE")
                 .autorise(java.math.BigDecimal.ZERO)
-                .encours(new java.math.BigDecimal("694769"))
+                .encours(new java.math.BigDecimal("694769").multiply(f2))
                 .impayes(java.math.BigDecimal.ZERO)
                 .ir(java.math.BigDecimal.ZERO)
                 .detailsTitle("DÉTAILS : ESCOMPTE")
@@ -170,7 +173,7 @@ public class ClientService {
                     tn.esprit.canvabna.dto.EngagementDetailResponse.builder()
                         .formeCredit("Escompte Commercial sur la Tunisie")
                         .autorise(java.math.BigDecimal.ZERO)
-                        .encours(new java.math.BigDecimal("694769"))
+                        .encours(new java.math.BigDecimal("694769").multiply(f2))
                         .impayes(java.math.BigDecimal.ZERO)
                         .build()
                 ))
@@ -179,7 +182,7 @@ public class ClientService {
                 .code("CME")
                 .forme("C.M.E")
                 .autorise(java.math.BigDecimal.ZERO)
-                .encours(new java.math.BigDecimal("4000000"))
+                .encours(new java.math.BigDecimal("4000000").multiply(f1))
                 .impayes(java.math.BigDecimal.ZERO)
                 .ir(java.math.BigDecimal.ZERO)
                 .detailsTitle("DÉTAILS : C.M.E")
@@ -188,7 +191,7 @@ public class ClientService {
                     tn.esprit.canvabna.dto.EngagementDetailResponse.builder()
                         .formeCredit("Crédit de Financement de Stocks en dinars")
                         .autorise(java.math.BigDecimal.ZERO)
-                        .encours(new java.math.BigDecimal("4000000"))
+                        .encours(new java.math.BigDecimal("4000000").multiply(f1))
                         .impayes(java.math.BigDecimal.ZERO)
                         .ir(java.math.BigDecimal.ZERO)
                         .build()
@@ -198,7 +201,7 @@ public class ClientService {
                 .code("EPS")
                 .forme("E.P.S")
                 .autorise(java.math.BigDecimal.ZERO)
-                .encours(new java.math.BigDecimal("2794700"))
+                .encours(new java.math.BigDecimal("2794700").multiply(f2))
                 .ir(java.math.BigDecimal.ZERO)
                 .detailsTitle("DÉTAILS : E.P.S")
                 .subtotalLabel("S/ Total EPS")
@@ -207,24 +210,24 @@ public class ClientService {
                         .formeCredit("Cautions d'approvisionnement")
                         .autorise(java.math.BigDecimal.ZERO)
                         .echeance(java.time.LocalDate.of(2026, 10, 31))
-                        .encours(new java.math.BigDecimal("600000"))
+                        .encours(new java.math.BigDecimal("600000").multiply(f2))
                         .build(),
                     tn.esprit.canvabna.dto.EngagementDetailResponse.builder()
                         .formeCredit("Caution d'admission temporaire")
                         .autorise(java.math.BigDecimal.ZERO)
-                        .encours(new java.math.BigDecimal("2068600"))
+                        .encours(new java.math.BigDecimal("2068600").multiply(f2))
                         .build(),
                     tn.esprit.canvabna.dto.EngagementDetailResponse.builder()
                         .formeCredit("Caution fiscale")
                         .autorise(java.math.BigDecimal.ZERO)
-                        .encours(new java.math.BigDecimal("126100"))
+                        .encours(new java.math.BigDecimal("126100").multiply(f2))
                         .build()
                 ))
                 .build(),
             tn.esprit.canvabna.dto.EngagementBnaRowResponse.builder()
                 .code("SBE")
                 .forme("SBE")
-                .encours(new java.math.BigDecimal("8998990"))
+                .encours(new java.math.BigDecimal("8998990").multiply(f1))
                 .impayes(java.math.BigDecimal.ZERO)
                 .ir(java.math.BigDecimal.ZERO)
                 .detailsTitle("DÉTAILS : SBE")
@@ -232,14 +235,14 @@ public class ClientService {
                 .details(java.util.Collections.singletonList(
                     tn.esprit.canvabna.dto.EngagementDetailResponse.builder()
                         .formeCredit("Lettre de Crédit (au 05/2026)")
-                        .encours(new java.math.BigDecimal("8998990"))
+                        .encours(new java.math.BigDecimal("8998990").multiply(f1))
                         .build()
                 ))
                 .build(),
             tn.esprit.canvabna.dto.EngagementBnaRowResponse.builder()
                 .code("LC")
                 .forme("Lettre De crédit")
-                .encours(new java.math.BigDecimal("8596285"))
+                .encours(new java.math.BigDecimal("8596285").multiply(f2))
                 .impayes(java.math.BigDecimal.ZERO)
                 .ir(java.math.BigDecimal.ZERO)
                 .detailsTitle("DÉTAILS : LETTRE DE CRÉDIT")
@@ -248,7 +251,7 @@ public class ClientService {
                     tn.esprit.canvabna.dto.EngagementDetailResponse.builder()
                         .formeCredit("Lettre de Crédit commerciale")
                         .autorise(java.math.BigDecimal.ZERO)
-                        .encours(new java.math.BigDecimal("8596285"))
+                        .encours(new java.math.BigDecimal("8596285").multiply(f2))
                         .impayes(java.math.BigDecimal.ZERO)
                         .ir(java.math.BigDecimal.ZERO)
                         .build()
@@ -258,7 +261,7 @@ public class ClientService {
                 .code("BPN")
                 .forme("BPN")
                 .autorise(java.math.BigDecimal.ZERO)
-                .encours(java.math.BigDecimal.ZERO)
+                .encours(new java.math.BigDecimal("150000").multiply(f1))
                 .impayes(java.math.BigDecimal.ZERO)
                 .ir(java.math.BigDecimal.ZERO)
                 .detailsTitle("DÉTAILS : BPN")
@@ -269,9 +272,10 @@ public class ClientService {
                         .autorise(java.math.BigDecimal.ZERO)
                         .utilise(java.math.BigDecimal.ZERO)
                         .formeCredit("Billets à Ordre / BPN")
-                        .aEchoirEnPrincipal(java.math.BigDecimal.ZERO)
+                        .aEchoirEnPrincipal(new java.math.BigDecimal("150000").multiply(f1))
                         .impayesPI(java.math.BigDecimal.ZERO)
                         .ir(java.math.BigDecimal.ZERO)
+                        .encours(new java.math.BigDecimal("150000").multiply(f1))
                         .build()
                 ))
                 .build(),
@@ -279,7 +283,7 @@ public class ClientService {
                 .code("CMT")
                 .forme("CMT")
                 .autorise(java.math.BigDecimal.ZERO)
-                .encours(java.math.BigDecimal.ZERO)
+                .encours(new java.math.BigDecimal("250000").multiply(f2))
                 .impayes(java.math.BigDecimal.ZERO)
                 .ir(java.math.BigDecimal.ZERO)
                 .detailsTitle("DÉTAILS : CMT")
@@ -290,9 +294,10 @@ public class ClientService {
                         .autorise(java.math.BigDecimal.ZERO)
                         .utilise(java.math.BigDecimal.ZERO)
                         .formeCredit("Crédit à Moyen Terme (CMT)")
-                        .aEchoirEnPrincipal(java.math.BigDecimal.ZERO)
+                        .aEchoirEnPrincipal(new java.math.BigDecimal("250000").multiply(f2))
                         .impayesPI(java.math.BigDecimal.ZERO)
                         .ir(java.math.BigDecimal.ZERO)
+                        .encours(new java.math.BigDecimal("250000").multiply(f2))
                         .build()
                 ))
                 .build(),
@@ -336,25 +341,28 @@ public class ClientService {
         // TEMPORARY DEVELOPMENT DATA (MOCK) - DO NOT PERSIST IN DB
         // TODO: Replace this memory mock with real database/service queries once ready.
         // =========================================================================
+        java.math.BigDecimal f1 = new java.math.BigDecimal((clientId % 5) + 1);
+        java.math.BigDecimal f2 = new java.math.BigDecimal((clientId % 3) + 1);
+
         List<tn.esprit.canvabna.dto.ActiviteAnneeResponse> activities = java.util.Arrays.asList(
             tn.esprit.canvabna.dto.ActiviteAnneeResponse.builder()
                 .annee(2024)
-                .totalMouvement(new java.math.BigDecimal("14388891"))
-                .ca(new java.math.BigDecimal("188571440"))
+                .totalMouvement(new java.math.BigDecimal("14388891").multiply(f1))
+                .ca(new java.math.BigDecimal("188571440").multiply(f2))
                 .partConfiee(new java.math.BigDecimal("7.63"))
                 .partEngagement(java.math.BigDecimal.ZERO)
                 .build(),
             tn.esprit.canvabna.dto.ActiviteAnneeResponse.builder()
                 .annee(2025)
-                .totalMouvement(new java.math.BigDecimal("10554833"))
-                .ca(new java.math.BigDecimal("183487104"))
+                .totalMouvement(new java.math.BigDecimal("10554833").multiply(f2))
+                .ca(new java.math.BigDecimal("183487104").multiply(f1))
                 .partConfiee(new java.math.BigDecimal("5.75"))
                 .partEngagement(java.math.BigDecimal.ZERO)
                 .build(),
             tn.esprit.canvabna.dto.ActiviteAnneeResponse.builder()
                 .annee(2026)
-                .totalMouvement(new java.math.BigDecimal("4162329"))
-                .ca(new java.math.BigDecimal("96745210"))
+                .totalMouvement(new java.math.BigDecimal("4162329").multiply(f1))
+                .ca(new java.math.BigDecimal("96745210").multiply(f2))
                 .partConfiee(new java.math.BigDecimal("4.30"))
                 .partEngagement(java.math.BigDecimal.ZERO)
                 .build()
@@ -394,5 +402,83 @@ public class ClientService {
             client.setStructure(null);
         }
         return client;
+    }
+
+    @Transactional(readOnly = true)
+    public tn.esprit.canvabna.dto.ConditionsBanqueResponse getConditionsBanque(final Long clientId) {
+        log.debug("Fetching conditions banque for client id: {}", clientId);
+        final tn.esprit.canvabna.entity.Client client = clientRepository.findById(clientId)
+                .orElseThrow(() -> new ResourceNotFoundException("Client", "id", clientId));
+
+        // Données dynamiques par client (mock déterministe basé sur l'id)
+        double tmmBase = 2.75 + (clientId % 3) * 0.25;
+        double tmmDebit115 = tmmBase + 0.5;
+        double tmmDebit101 = tmmBase;
+        double sansMgCaution = 0.08 + (clientId % 4) * 0.02;
+        double garantieCaution = 0.05 + (clientId % 3) * 0.01;
+        double sansMgAval = 0.28 + (clientId % 3) * 0.05;
+        double garantieAval = 0.18 + (clientId % 3) * 0.03;
+        double sansMgMarche = 0.10 + (clientId % 4) * 0.02;
+        double garantieMarche = 0.06 + (clientId % 3) * 0.01;
+
+        int year = (int)(2026 + (clientId % 3));
+        String month = String.format("%02d", (clientId % 12) + 1);
+        String groupe = (client.getGroupe() != null ? client.getGroupe() : client.getRelation()).toUpperCase();
+
+        java.util.List<tn.esprit.canvabna.dto.TauxRow> taux = java.util.Arrays.asList(
+            tn.esprit.canvabna.dto.TauxRow.builder()
+                .designation("Taux escompte commercial sur la Tunisie")
+                .valeur(String.format("TMM+ %.2f %%", tmmBase))
+                .build(),
+            tn.esprit.canvabna.dto.TauxRow.builder()
+                .designation("Taux avance sur créances administratives")
+                .valeur(String.format("TMM+ %.2f %%", tmmBase))
+                .build(),
+            tn.esprit.canvabna.dto.TauxRow.builder()
+                .designation("Taux d'intérêts créditeur (en dinars)")
+                .valeur("TMM+ 1.00 %")
+                .build(),
+            tn.esprit.canvabna.dto.TauxRow.builder()
+                .designation("Taux d'intérêts débiteurs compte 115")
+                .valeur(String.format(
+                    "DEBITS DANS LE CADRE D'UNE FACILITE DE CAISSE NON ECHUE Valeur = TMM+ %.2f %%\n" +
+                    "AUTRES DECOUVERTES Valeur = TMM+ %.2f %%\n" +
+                    "DEBITS GARANTIS PAR DES DEPOTS AFFECTES Valeur = TMM+ %.2f %%",
+                    tmmDebit115, tmmDebit115 + 1, tmmDebit115 + 1))
+                .build(),
+            tn.esprit.canvabna.dto.TauxRow.builder()
+                .designation("Taux d'intérêts débiteurs compte 101")
+                .valeur(String.format("TMM+ %.2f %%", tmmDebit101))
+                .build()
+        );
+
+        java.util.List<tn.esprit.canvabna.dto.CommissionRow> commissions = java.util.Arrays.asList(
+            tn.esprit.canvabna.dto.CommissionRow.builder()
+                .designation("Com autres cautions & autres engagements par signature")
+                .avecMg("AVEC BLOCAGE DE LA PROVISION (AVEC MG) Valeur = 0.000")
+                .sansMg(String.format("SANS BLOCAGE DE LA PROVISION (SANS MG) Valeur = %.2f %%", sansMgCaution))
+                .garantie(String.format("GARANTIE PAR DES DEPOTS AFFECTES Valeur = %.2f %%", garantieCaution))
+                .build(),
+            tn.esprit.canvabna.dto.CommissionRow.builder()
+                .designation("Com aval opérations courantes")
+                .avecMg("AVEC BLOCAGE DE LA PROVISION (AVEC MG) Valeur = 0.000")
+                .sansMg(String.format("SANS BLOCAGE DE LA PROVISION (SANS MG) Valeur = %.2f %%", sansMgAval))
+                .garantie(String.format("GARANTIE PAR DES DEPOTS AFFECTES Valeur = %.2f %%", garantieAval))
+                .build(),
+            tn.esprit.canvabna.dto.CommissionRow.builder()
+                .designation("Com cautions sur marchés & cautions bancaires")
+                .avecMg("AVEC BLOCAGE DE LA PROVISION (AVEC MG) Valeur = 0.000")
+                .sansMg(String.format("SANS BLOCAGE DE LA PROVISION (SANS MG) Valeur = %.2f %%", sansMgMarche))
+                .garantie(String.format("GARANTIE PAR DES DEPOTS AFFECTES Valeur = %.2f %%", garantieMarche))
+                .build()
+        );
+
+        return tn.esprit.canvabna.dto.ConditionsBanqueResponse.builder()
+                .compteGroupe(groupe)
+                .finValidite("30/" + month + "/" + year)
+                .taux(taux)
+                .commissions(commissions)
+                .commentaires("Commentaires Conditions de Banque – Direction Régionale")
+                .build();
     }
 }

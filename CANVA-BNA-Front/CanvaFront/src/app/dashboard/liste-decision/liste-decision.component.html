@@ -1,0 +1,269 @@
+<div class="ld-page">
+
+  <!-- Page Header -->
+  <div class="ld-header">
+    <div class="ld-header-left">
+      <div class="ld-title-icon">📋</div>
+      <div>
+        <h1 class="ld-title">Liste des Décisions</h1>
+        <p class="ld-subtitle">Supervision et gestion des dossiers de sollicitation</p>
+      </div>
+    </div>
+    <button class="ld-btn-refresh" (click)="loadDecisions()" [disabled]="isLoading">
+      <span class="refresh-icon" [class.spinning]="isLoading">↻</span>
+      {{ isLoading ? 'Actualisation...' : 'Actualiser' }}
+    </button>
+  </div>
+
+  <!-- Alerts -->
+  <div class="ld-alert ld-alert-success" *ngIf="successMessage">
+    <span>✔ {{ successMessage }}</span>
+    <button (click)="clearMessages()">✕</button>
+  </div>
+  <div class="ld-alert ld-alert-danger" *ngIf="errorMessage">
+    <span>⚠ {{ errorMessage }}</span>
+    <button (click)="clearMessages()">✕</button>
+  </div>
+
+  <!-- KPI Cards -->
+  <div class="ld-kpi-row">
+    <div class="ld-kpi-card ld-kpi-total" (click)="onStatutFilterChange('TOUS')" [class.ld-kpi-active]="selectedStatutFilter === 'TOUS'">
+      <div class="ld-kpi-left">
+        <div class="ld-kpi-label">Total Dossiers</div>
+        <div class="ld-kpi-value">{{ countTotal }}</div>
+        <div class="ld-kpi-sub">Toutes catégories</div>
+      </div>
+      <div class="ld-kpi-icon ld-icon-total">🗂</div>
+    </div>
+
+    <div class="ld-kpi-card ld-kpi-pending" (click)="onStatutFilterChange('EN_ATTENTE_DECISION')" [class.ld-kpi-active]="selectedStatutFilter === 'EN_ATTENTE_DECISION'">
+      <div class="ld-kpi-left">
+        <div class="ld-kpi-label">En Attente</div>
+        <div class="ld-kpi-value">{{ countPending }}</div>
+        <div class="ld-kpi-sub">Décision requise</div>
+      </div>
+      <div class="ld-kpi-icon ld-icon-pending">⏳</div>
+    </div>
+
+    <div class="ld-kpi-card ld-kpi-accepted" (click)="onStatutFilterChange('ACCEPTE')" [class.ld-kpi-active]="selectedStatutFilter === 'ACCEPTE'">
+      <div class="ld-kpi-left">
+        <div class="ld-kpi-label">Acceptés</div>
+        <div class="ld-kpi-value">{{ countAccepted }}</div>
+        <div class="ld-kpi-sub">Dossiers validés</div>
+      </div>
+      <div class="ld-kpi-icon ld-icon-accepted">✅</div>
+    </div>
+
+    <div class="ld-kpi-card ld-kpi-refused" (click)="onStatutFilterChange('REFUSE')" [class.ld-kpi-active]="selectedStatutFilter === 'REFUSE'">
+      <div class="ld-kpi-left">
+        <div class="ld-kpi-label">Refusés</div>
+        <div class="ld-kpi-value">{{ countRefused }}</div>
+        <div class="ld-kpi-sub">Dossiers rejetés</div>
+      </div>
+      <div class="ld-kpi-icon ld-icon-refused">❌</div>
+    </div>
+  </div>
+
+  <!-- Search + Filter Bar -->
+  <div class="ld-controls">
+    <div class="ld-search-wrap">
+      <span class="ld-search-ico">🔍</span>
+      <input
+        type="text"
+        class="ld-search-input"
+        [(ngModel)]="searchTerm"
+        (input)="onSearchChange()"
+        placeholder="Rechercher par identifiant, client, produit, montant...">
+      <button class="ld-search-clear" *ngIf="searchTerm" (click)="searchTerm = ''; applyFilter()">✕</button>
+    </div>
+
+    <div class="ld-filter-wrap">
+      <label class="ld-filter-label">Statut</label>
+      <select class="ld-filter-select" [(ngModel)]="selectedStatutFilter" (change)="applyFilter()">
+        <option value="TOUS">Tous ({{ countTotal }})</option>
+        <option value="EN_ATTENTE_DECISION">⏳ En Attente ({{ countPending }})</option>
+        <option value="ACCEPTE">✅ Acceptés ({{ countAccepted }})</option>
+        <option value="REFUSE">❌ Refusés ({{ countRefused }})</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Table Card -->
+  <div class="ld-table-card">
+    <div class="ld-table-header">
+      <span class="ld-table-title">
+        Résultats
+        <span class="ld-result-badge">{{ filteredSollicitations.length }}</span>
+      </span>
+      <span class="ld-table-filter-tag" *ngIf="selectedStatutFilter !== 'TOUS'">
+        Filtre actif : {{ selectedStatutFilter | titlecase }}
+      </span>
+    </div>
+
+    <!-- Loading Skeleton -->
+    <div class="ld-loading" *ngIf="isLoading">
+      <div class="ld-spinner"></div>
+      <span>Chargement des dossiers...</span>
+    </div>
+
+    <!-- Table -->
+    <div class="ld-table-scroll" *ngIf="!isLoading">
+      <table class="ld-table">
+        <thead>
+          <tr>
+            <th>Client</th>
+            <th>Produit Sollicité</th>
+            <th class="text-right">Montant (DT)</th>
+            <th class="text-center">Date Demande</th>
+            <th class="text-center">Statut</th>
+            <th class="text-center">Date Décision</th>
+            <th>Commentaire</th>
+            <th class="text-center">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of filteredSollicitations"
+              class="ld-row"
+              [class.ld-row-pending]="item.statut === 'EN_ATTENTE_DECISION'">
+
+            <!-- Client -->
+            <td>
+              <div class="ld-client-id">{{ item.clientIdentifiant || ('Client #' + item.clientId) }}</div>
+              <div class="ld-client-name">{{ item.clientRelation || '---' }}</div>
+              <div class="ld-client-group" *ngIf="item.clientGroupe">{{ item.clientGroupe }}</div>
+            </td>
+
+            <!-- Produit -->
+            <td>
+              <span class="ld-product-tag" *ngIf="item.produit">{{ item.produit.libelle }}</span>
+              <span class="ld-product-tag ld-product-empty" *ngIf="!item.produit">—</span>
+              <div class="ld-objet text-muted text-xs" *ngIf="item.objetCredit">{{ item.objetCredit.libelle }}</div>
+            </td>
+
+            <!-- Montant -->
+            <td class="text-right">
+              <span class="ld-montant">{{ item.montantSollicite | number:'1.3-3' }}</span>
+              <span class="ld-devise"> DT</span>
+            </td>
+
+            <!-- Date Demande -->
+            <td class="text-center ld-date">{{ item.dateDemande | date:'dd/MM/yyyy' }}</td>
+
+            <!-- Statut Badge -->
+            <td class="text-center">
+              <span class="ld-badge ld-badge-pending"  *ngIf="item.statut === 'EN_ATTENTE_DECISION'">⏳ En Attente</span>
+              <span class="ld-badge ld-badge-accepted" *ngIf="item.statut === 'ACCEPTE'">✔ Accepté</span>
+              <span class="ld-badge ld-badge-refused"  *ngIf="item.statut === 'REFUSE'">✖ Refusé</span>
+            </td>
+
+            <!-- Date Décision -->
+            <td class="text-center ld-date">
+              {{ item.dateDecision ? (item.dateDecision | date:'dd/MM/yyyy') : '—' }}
+            </td>
+
+            <!-- Commentaire -->
+            <td>
+              <div class="ld-comment" [title]="item.commentaireDecision || ''">
+                {{ item.commentaireDecision || '—' }}
+              </div>
+            </td>
+
+            <!-- Action -->
+            <td class="text-center">
+              <button class="ld-btn-edit" (click)="openUpdateStatusModal(item)">
+                ✏ Modifier
+              </button>
+            </td>
+
+          </tr>
+
+          <!-- Empty State -->
+          <tr *ngIf="filteredSollicitations.length === 0">
+            <td colspan="8" class="ld-empty">
+              <div class="ld-empty-icon">🔍</div>
+              <div class="ld-empty-title">Aucun résultat</div>
+              <div class="ld-empty-sub">Modifiez les critères de recherche ou le filtre de statut.</div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<!-- ========= MODAL Modification Statut ========= -->
+<div class="ld-modal-overlay" *ngIf="showStatusModal" (click)="closeUpdateStatusModal()">
+  <div class="ld-modal" (click)="$event.stopPropagation()">
+
+    <div class="ld-modal-header">
+      <div>
+        <div class="ld-modal-title">Modifier le Statut</div>
+        <div class="ld-modal-subtitle" *ngIf="selectedItemToUpdate">
+          {{ selectedItemToUpdate.clientIdentifiant }} — {{ selectedItemToUpdate.clientRelation }}
+        </div>
+      </div>
+      <button class="ld-modal-close" (click)="closeUpdateStatusModal()">✕</button>
+    </div>
+
+    <div class="ld-modal-body">
+      <!-- Client Banner -->
+      <div class="ld-modal-client-banner">
+        <div class="ld-modal-client-row">
+          <span class="ld-modal-client-label">Identifiant :</span>
+          <span class="ld-modal-client-value">{{ selectedItemToUpdate?.clientIdentifiant || '—' }}</span>
+        </div>
+        <div class="ld-modal-client-row">
+          <span class="ld-modal-client-label">Montant :</span>
+          <span class="ld-modal-client-value font-bold text-green">
+            {{ selectedItemToUpdate?.montantSollicite | number:'1.3-3' }} DT
+          </span>
+        </div>
+        <div class="ld-modal-client-row">
+          <span class="ld-modal-client-label">Statut actuel :</span>
+          <span class="ld-badge ld-badge-pending"  *ngIf="selectedItemToUpdate?.statut === 'EN_ATTENTE_DECISION'">⏳ En Attente</span>
+          <span class="ld-badge ld-badge-accepted" *ngIf="selectedItemToUpdate?.statut === 'ACCEPTE'">✔ Accepté</span>
+          <span class="ld-badge ld-badge-refused"  *ngIf="selectedItemToUpdate?.statut === 'REFUSE'">✖ Refusé</span>
+        </div>
+      </div>
+
+      <!-- New Status Selector -->
+      <div class="ld-field">
+        <label class="ld-field-label">Nouveau Statut *</label>
+        <div class="ld-status-options">
+          <label class="ld-status-option" [class.selected]="newStatusValue === 'EN_ATTENTE_DECISION'">
+            <input type="radio" name="newStatus" value="EN_ATTENTE_DECISION" [(ngModel)]="newStatusValue">
+            <span class="option-icon">⏳</span>
+            <span>En Attente</span>
+          </label>
+          <label class="ld-status-option option-accept" [class.selected]="newStatusValue === 'ACCEPTE'">
+            <input type="radio" name="newStatus" value="ACCEPTE" [(ngModel)]="newStatusValue">
+            <span class="option-icon">✔</span>
+            <span>Accepter</span>
+          </label>
+          <label class="ld-status-option option-refuse" [class.selected]="newStatusValue === 'REFUSE'">
+            <input type="radio" name="newStatus" value="REFUSE" [(ngModel)]="newStatusValue">
+            <span class="option-icon">✖</span>
+            <span>Refuser</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Comment -->
+      <div class="ld-field">
+        <label class="ld-field-label">Commentaire / Justification</label>
+        <textarea class="ld-textarea" rows="3"
+                  [(ngModel)]="statusCommentaire"
+                  placeholder="Motif de la modification du statut..."></textarea>
+      </div>
+    </div>
+
+    <div class="ld-modal-footer">
+      <button class="ld-btn-cancel" (click)="closeUpdateStatusModal()">Annuler</button>
+      <button class="ld-btn-confirm" (click)="saveStatusUpdate()" [disabled]="isUpdatingStatus">
+        {{ isUpdatingStatus ? '⏳ Enregistrement...' : '✔ Confirmer la modification' }}
+      </button>
+    </div>
+
+  </div>
+</div>

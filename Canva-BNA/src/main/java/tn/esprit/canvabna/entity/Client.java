@@ -93,4 +93,10 @@ public class Client {
     @JsonManagedReference("client-comptes")
     @Builder.Default
     private List<Compte> comptes = new ArrayList<>();
+
+    /** Liste des garanties en possession liées à ce client. */
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonManagedReference("client-garanties")
+    @Builder.Default
+    private List<tn.esprit.canvabna.entity.Garantie> garanties = new ArrayList<>();
 }

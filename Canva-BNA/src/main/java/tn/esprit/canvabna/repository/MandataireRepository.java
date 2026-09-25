@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import tn.esprit.canvabna.entity.Mandataire;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Repository pour {@link Mandataire}.
@@ -15,4 +16,10 @@ public interface MandataireRepository extends JpaRepository<Mandataire, Long> {
      */
     List<Mandataire> findByCompte_Id_CodeGuichetAndCompte_Id_CodeProduitAndCompte_Id_NumCompte(
             String codeGuichet, String codeProduit, String numCompte);
+
+    /**
+     * Trouve un mandataire par son numéro de mandat.
+     * Utilisé par le seeder de développement pour garantir l'idempotence.
+     */
+    Optional<Mandataire> findByNumMandat(String numMandat);
 }

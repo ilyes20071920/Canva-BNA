@@ -9,9 +9,89 @@
       </div>
     </div>
     <div class="navbar-right">
-      <button class="logout-btn" (click)="logout()">Déconnexion</button>
+
+      <!-- Notification Bell (Prise en Charge) -->
+      <div class="notif-wrapper" *ngIf="isPriseEnCharge">
+        <button class="notif-bell-btn" (click)="toggleNotifications()" title="Notifications de décisions">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+          </svg>
+          <!-- Bell Counter Badge -->
+          <span class="notif-bell-badge" *ngIf="unreadCount > 0">{{ unreadCount }}</span>
+        </button>
+
+        <!-- Notification Dropdown -->
+        <div class="notif-dropdown" *ngIf="showNotificationDropdown">
+          <div class="notif-dropdown-header">
+            <span class="notif-dropdown-title">🔔 Notifications Décisions</span>
+            <span class="notif-dropdown-badge">{{ notifications.length }} récente(s)</span>
+          </div>
+
+          <div class="notif-dropdown-list">
+            <div *ngFor="let notif of notifications"
+                 class="notif-item"
+                 (click)="goToDecisions()">
+              <div class="notif-item-icon" [ngSwitch]="notif.statut">
+                <span *ngSwitchCase="'EN_ATTENTE_DECISION'" class="icon-pending">⏳</span>
+                <span *ngSwitchCase="'ACCEPTE'" class="icon-accepted">✅</span>
+                <span *ngSwitchCase="'REFUSE'" class="icon-refused">❌</span>
+                <span *ngSwitchDefault>📄</span>
+              </div>
+              <div class="notif-item-content">
+                <div class="notif-item-title">
+                  <strong>{{ notif.clientIdentifiant || ('Client #' + notif.clientId) }}</strong>
+                  <span class="notif-item-name">{{ notif.clientRelation }}</span>
+                </div>
+                <div class="notif-item-desc">
+                  <span *ngIf="notif.statut === 'EN_ATTENTE_DECISION'">Nouveau dossier en attente de décision</span>
+                  <span *ngIf="notif.statut === 'ACCEPTE'" class="text-success-notif">Décision : Dossier Accepté</span>
+                  <span *ngIf="notif.statut === 'REFUSE'" class="text-danger-notif">Décision : Dossier Refusé</span>
+                </div>
+                <div class="notif-item-meta">
+                  <span>{{ notif.montantSollicite | number:'1.3-3' }} DT</span>
+                  <span *ngIf="notif.dateDecision"> • Décidé le {{ notif.dateDecision | date:'dd/MM/yyyy' }}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="notif-empty" *ngIf="notifications.length === 0">
+              <span>Aucune notification pour le moment</span>
+            </div>
+          </div>
+
+          <div class="notif-dropdown-footer">
+            <button class="notif-view-all-btn" (click)="goToDecisions()">
+              Voir toutes les décisions →
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <button class="logout-btn" (click)="logout()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+          <polyline points="16 17 21 12 16 7"></polyline>
+          <line x1="21" y1="12" x2="9" y2="12"></line>
+        </svg>
+        <span class="logout-text">Déconnexion</span>
+      </button>
     </div>
   </header>
+
+  <!-- Live Toast Notification (Popup) -->
+  <div class="toast-notification" *ngIf="latestToast">
+    <div class="toast-icon">
+      <span *ngIf="latestToast.statut === 'EN_ATTENTE_DECISION'">⏳</span>
+      <span *ngIf="latestToast.statut === 'ACCEPTE'">✅</span>
+      <span *ngIf="latestToast.statut === 'REFUSE'">❌</span>
+    </div>
+    <div class="toast-body" (click)="goToDecisions()">
+      <div class="toast-title">Nouvelle mise à jour dossier !</div>
+      <div class="toast-msg">{{ latestToast.clientIdentifiant }} - {{ latestToast.clientRelation }} : <strong>{{ latestToast.statut }}</strong></div>
+    </div>
+    <button class="toast-close" (click)="dismissToast()">✕</button>
+  </div>
 
   <!-- Main Container (Sidebar + Content) -->
   <div class="main-container">
@@ -38,6 +118,21 @@
           <a routerLink="/dashboard/fiche-client" routerLinkActive="active" class="nav-item">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
             Fiche Client
+          </a>
+
+          <!-- Liste de décision — visible UNIQUEMENT pour ROLE_PRISE_EN_CHARGE -->
+          <a *ngIf="isPriseEnCharge"
+             routerLink="/dashboard/liste-decision"
+             routerLinkActive="active"
+             (click)="onSidebarDecisionClick()"
+             class="nav-item nav-item-decision">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 11l3 3L22 4"></path>
+              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+            </svg>
+            Liste de Décision
+            <!-- Notification badge : disparaît quand lu -->
+            <span class="nav-badge" *ngIf="unreadCount > 0">{{ unreadCount }}</span>
           </a>
         </nav>
       </div>

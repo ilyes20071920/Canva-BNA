@@ -15,12 +15,13 @@
 
   <div class="header-section">
     <h1 class="page-title">Signalétique Client Bancaire</h1>
-    
+
     <!-- Actions Bar -->
     <div class="actions-bar">
       <!-- Search -->
       <div class="search-box">
-        <input type="text" [(ngModel)]="searchIdentifiant" placeholder="Identifiant Client (ex: 1042986R)..." (keyup.enter)="searchClient()">
+        <input type="text" [(ngModel)]="searchIdentifiant" placeholder="Identifiant Client (ex: 1042986R)..."
+          (keyup.enter)="searchClient()">
         <button (click)="searchClient()" class="btn-search">Rechercher</button>
       </div>
 
@@ -46,7 +47,7 @@
 
   <!-- Client Found Profile -->
   <div class="client-profile-container" *ngIf="selectedClient">
-    
+
     <!-- Client Top Info Header -->
     <div class="client-header-summary">
       <div class="summary-item">
@@ -69,33 +70,43 @@
 
     <!-- Main Navigation Tabs -->
     <div class="main-tabs">
-      <button class="tab-btn" [class.active]="activeTab === 'Signalétique'" (click)="setActiveTab('Signalétique')">Signalétique</button>
-      <button class="tab-btn" [class.active]="activeTab === 'Sollicite'" (click)="setActiveTab('Sollicite')">Sollicite</button>
-      <button class="tab-btn" [class.active]="activeTab === 'Engagements'" (click)="setActiveTab('Engagements')">Engagements & Activité</button>
-      <button class="tab-btn" [class.active]="activeTab === 'Garanties'" (click)="setActiveTab('Garanties')">Garanties en entre possession</button>
-      <button class="tab-btn" [class.active]="activeTab === 'Conditions'" (click)="setActiveTab('Conditions')">Conditions Banque</button>
-      <button class="tab-btn" [class.active]="activeTab === 'Analyse'" (click)="setActiveTab('Analyse')">Analyse Financière</button>
-      <button class="tab-btn" [class.active]="activeTab === 'Avis'" (click)="setActiveTab('Avis')">Avis et Décision</button>
+      <button class="tab-btn" [class.active]="activeTab === 'Signalétique'"
+        (click)="setActiveTab('Signalétique')">Signalétique</button>
+      <button class="tab-btn" [class.active]="activeTab === 'Sollicite'"
+        (click)="setActiveTab('Sollicite')">Sollicite</button>
+      <button class="tab-btn" [class.active]="activeTab === 'Engagements'"
+        (click)="setActiveTab('Engagements')">Engagements & Activité</button>
+      <button class="tab-btn" [class.active]="activeTab === 'Garanties'" (click)="setActiveTab('Garanties')">Garanties
+        en entre possession</button>
+      <button class="tab-btn" [class.active]="activeTab === 'Conditions'"
+        (click)="setActiveTab('Conditions')">Conditions Banque</button>
+      <button class="tab-btn" [class.active]="activeTab === 'Analyse'" (click)="setActiveTab('Analyse')">Analyse
+        Financière</button>
+      <button class="tab-btn" [class.active]="activeTab === 'Avis'" (click)="setActiveTab('Avis')">Avis et
+        Décision</button>
     </div>
 
     <!-- Tab Contents -->
     <div class="tab-content-area" [ngSwitch]="activeTab">
-      
+
       <!-- SIGNALETIQUE TAB -->
       <div *ngSwitchCase="'Signalétique'">
-        
+
         <!-- Stepper -->
         <div class="stepper-container">
           <div class="step-line"></div>
-          <div class="step-item" [class.active]="activeStep === 'Présentation Générale'" (click)="setActiveStep('Présentation Générale')">
+          <div class="step-item" [class.active]="activeStep === 'Présentation Générale'"
+            (click)="setActiveStep('Présentation Générale')">
             <div class="step-dot"></div>
             <span class="step-label">Présentation Générale</span>
           </div>
-          <div class="step-item" [class.active]="activeStep === 'Dossier Juridique'" (click)="setActiveStep('Dossier Juridique')">
+          <div class="step-item" [class.active]="activeStep === 'Dossier Juridique'"
+            (click)="setActiveStep('Dossier Juridique')">
             <div class="step-dot"></div>
             <span class="step-label">Dossier Juridique</span>
           </div>
-          <div class="step-item" [class.active]="activeStep === 'Profil de Risque'" (click)="setActiveStep('Profil de Risque')">
+          <div class="step-item" [class.active]="activeStep === 'Profil de Risque'"
+            (click)="setActiveStep('Profil de Risque')">
             <div class="step-dot"></div>
             <span class="step-label">Profil de Risque</span>
           </div>
@@ -103,10 +114,10 @@
 
         <!-- Stepper Content -->
         <div class="step-content-area" [ngSwitch]="activeStep">
-          
+
           <!-- STEP 1: PRESENTATION GENERALE -->
           <div *ngSwitchCase="'Présentation Générale'">
-            
+
             <!-- Card 1: Signalétique Client (Info Générales) -->
             <div class="content-card">
               <div class="card-header">
@@ -224,8 +235,10 @@
                   <label class="compte-label">CHOISIR UN COMPTE *</label>
                   <div class="d-flex gap-4 align-items-center">
                     <select [(ngModel)]="selectedCompteId" (change)="onCompteChange()" class="compte-select">
-                      <option *ngFor="let cp of selectedClient.comptes" [value]="cp.numeroCompteComplet || (cp.codeGuichet + '-' + cp.codeProduit + '-' + cp.numCompte)">
-                        {{ cp.numeroCompteComplet || (cp.codeGuichet + '-' + cp.codeProduit + '-' + cp.numCompte) }} (Agence: {{ cp.agence || '---' }})
+                      <option *ngFor="let cp of selectedClient.comptes"
+                        [value]="cp.numeroCompteComplet || (cp.codeGuichet + '-' + cp.codeProduit + '-' + cp.numCompte)">
+                        {{ cp.numeroCompteComplet || (cp.codeGuichet + '-' + cp.codeProduit + '-' + cp.numCompte) }}
+                        (Agence: {{ cp.agence || '---' }})
                       </option>
                       <option *ngIf="!selectedClient.comptes || selectedClient.comptes.length === 0" disabled>
                         Aucun compte bancaire enregistré.
@@ -278,18 +291,689 @@
             <div class="content-card">
               <div class="card-header">🛡 Profil de Risque</div>
               <div class="card-body">
-                <p class="text-muted">Analyse de profil de risque et historique d'engagements non disponible dans cette version.</p>
+                <p class="text-muted">Analyse de profil de risque et historique d'engagements non disponible dans cette
+                  version.</p>
               </div>
             </div>
           </div>
 
         </div>
+      </div>
 
-        <!-- Footer / Save buttons -->
-        <div class="canevas-footer">
-          <button class="btn-save-canevas" (click)="updateClient()">💾 Enregistrer Canevas</button>
+      <!-- SOLLICITE TAB -->
+      <div *ngSwitchCase="'Sollicite'">
+        <div *ngIf="isLoadingSollicitation" class="text-center p-4">Chargement de la sollicitation...</div>
+
+        <div *ngIf="!isLoadingSollicitation && sollicitationFormPayload">
+
+          <!-- Stepper -->
+          <div class="stepper-container mb-4">
+            <div class="step-line"></div>
+            <div class="step-item" [class.active]="solliciteActiveStep === 'credit'"
+              [class.inactive]="solliciteActiveStep !== 'credit'" (click)="setSolliciteActiveStep('credit')">
+              <div class="step-dot" [class.outline]="solliciteActiveStep !== 'credit'"></div>
+              <span class="step-label">Crédit sollicité</span>
+            </div>
+            <div class="step-item" [class.active]="solliciteActiveStep === 'etude'"
+              [class.inactive]="solliciteActiveStep !== 'etude'" (click)="setSolliciteActiveStep('etude')">
+              <div class="step-dot" [class.outline]="solliciteActiveStep !== 'etude'"></div>
+              <span class="step-label">Étude du projet</span>
+            </div>
+          </div>
+
+          <!-- STEP 1: CRÉDIT SOLLICITÉ (PHASE 1) -->
+          <div *ngIf="solliciteActiveStep === 'credit'">
+
+            <!-- Card: CMLT Sollicité -->
+            <div class="content-card">
+              <div class="card-header d-flex align-items-center">
+                <span class="card-icon">📁</span>
+                <div>
+                  <strong>CMLT Sollicité</strong>
+                  <div class="card-subtitle text-muted">Conditions du CMLT Sollicité</div>
+                </div>
+              </div>
+              <div class="card-body">
+
+                <!-- Form Grid Top -->
+                <div class="grid-fields">
+
+                  <!-- Date de la demande -->
+                  <div class="field-group">
+                    <label>Date de la demande du client *</label>
+                    <input type="date" [(ngModel)]="sollicitationFormPayload.dateDemande">
+                  </div>
+
+                  <!-- Compte de déblocage -->
+                  <div class="field-group">
+                    <label>Compte de déblocage du CMLT *</label>
+                    <select [ngModel]="getSelectedSollicitationCompteKey()"
+                      (ngModelChange)="onSollicitationCompteChange($event)">
+                      <option *ngFor="let cp of getSollicitationCompteOptions()" [value]="getCompteKey(cp)">
+                        {{ getCompteKey(cp) }} (Agence: {{ cp.agence || '---' }})
+                      </option>
+                      <option *ngIf="getSollicitationCompteOptions().length === 0" value="" disabled selected>
+                        Aucun compte bancaire disponible pour ce client.
+                      </option>
+                    </select>
+                  </div>
+
+                  <!-- Produit * (Searchable Dropdown) -->
+                  <div class="field-group relative-field">
+                    <label>Produit *</label>
+                    <div class="searchable-select-trigger" (click)="showProduitDropdown = !showProduitDropdown">
+                      <span>{{ selectedProduit ? selectedProduit.libelle : 'Sélectionnez un produit...' }}</span>
+                      <button type="button" class="btn-clear" *ngIf="selectedProduit"
+                        (click)="clearProduit(); $event.stopPropagation();">✕</button>
+                      <span class="dropdown-arrow">▼</span>
+                    </div>
+                    <div class="searchable-dropdown-panel" *ngIf="showProduitDropdown">
+                      <div class="search-input-wrapper">
+                        <input type="text" [(ngModel)]="produitSearchText" placeholder="Rechercher un produit..."
+                          (click)="$event.stopPropagation()">
+                      </div>
+                      <ul class="options-list">
+                        <li *ngFor="let p of filteredProduits()" (click)="selectProduit(p)">
+                          {{ p.libelle }}
+                        </li>
+                        <li *ngIf="filteredProduits().length === 0" class="no-options">
+                          Aucun produit trouvé.
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <!-- Objet du crédit * (Searchable Dropdown) -->
+                  <div class="field-group relative-field">
+                    <label>Objet du crédit *</label>
+                    <div class="searchable-select-trigger" (click)="showObjetCreditDropdown = !showObjetCreditDropdown">
+                      <span>{{ selectedObjetCredit ? selectedObjetCredit.libelle : 'Sélectionnez un sous-produit'
+                        }}</span>
+                      <button type="button" class="btn-clear" *ngIf="selectedObjetCredit"
+                        (click)="clearObjetCredit(); $event.stopPropagation();">✕</button>
+                      <span class="dropdown-arrow">▼</span>
+                    </div>
+                    <div class="searchable-dropdown-panel" *ngIf="showObjetCreditDropdown">
+                      <div class="search-input-wrapper">
+                        <input type="text" [(ngModel)]="objetCreditSearchText"
+                          placeholder="Rechercher un objet de crédit..." (click)="$event.stopPropagation()">
+                      </div>
+                      <ul class="options-list">
+                        <li *ngFor="let o of filteredObjetsCredit()" (click)="selectObjetCredit(o)">
+                          {{ o.libelle }}
+                        </li>
+                        <li *ngIf="filteredObjetsCredit().length === 0" class="no-options">
+                          Aucun objet trouvé.
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <!-- Montant sollicité -->
+                  <div class="field-group">
+                    <label>Montant sollicité (DT) *</label>
+                    <input type="number" min="0" step="0.001" [(ngModel)]="sollicitationFormPayload.montantSollicite"
+                      placeholder="0.000">
+                  </div>
+
+                  <!-- Durée sollicitée -->
+                  <div class="field-group">
+                    <label>Durée sollicitée (en mois) *</label>
+                    <input type="number" min="0" [(ngModel)]="sollicitationFormPayload.dureeSolliciteeMois">
+                  </div>
+
+                  <!-- Périodicité (PL) -->
+                  <div class="field-group">
+                    <label>Périodicité (PL) *</label>
+                    <select [(ngModel)]="sollicitationFormPayload.periodicitePl">
+                      <option *ngFor="let p of periodicites" [value]="p">{{ p }}</option>
+                    </select>
+                  </div>
+
+                  <!-- Nbre de périodes sollicitées (PL) -->
+                  <div class="field-group">
+                    <label>Nbre de périodes sollicitées (PL)</label>
+                    <input type="number" min="0" [(ngModel)]="sollicitationFormPayload.nbrePeriodesSolliciteesPl">
+                  </div>
+
+                  <!-- Nbre de périodes de grâce (PL) -->
+                  <div class="field-group">
+                    <label>Nbre de périodes de grâce (PL)</label>
+                    <input type="number" min="0" [(ngModel)]="sollicitationFormPayload.nbrePeriodesGracePl">
+                  </div>
+
+                  <!-- Périodicité (Int.) -->
+                  <div class="field-group">
+                    <label>Périodicité (Int.) *</label>
+                    <select [(ngModel)]="sollicitationFormPayload.periodiciteInt">
+                      <option *ngFor="let p of periodicites" [value]="p">{{ p }}</option>
+                    </select>
+                  </div>
+
+                  <!-- Nbre de périodes sollicitées (Int.) -->
+                  <div class="field-group">
+                    <label>Nbre de périodes sollicitées (Int.)</label>
+                    <input type="number" min="0" [(ngModel)]="sollicitationFormPayload.nbrePeriodesSolliciteesInt">
+                  </div>
+
+                  <!-- Nbre de périodes de grâce (Int.) -->
+                  <div class="field-group">
+                    <label>Nbre de périodes de grâce (Int.)</label>
+                    <input type="number" min="0" [(ngModel)]="sollicitationFormPayload.nbrePeriodesGraceInt">
+                  </div>
+
+                </div>
+
+                <!-- Conditions de Banque Subsection & Regulatory Panel Layout -->
+                <div class="d-flex gap-4 mt-4 align-items-start flex-wrap">
+
+                  <!-- Left: Conditions de banque -->
+                  <div class="bank-conditions-box flex-grow-1">
+                    <div class="section-title mb-3">
+                      <span class="icon">%</span>
+                      <strong>Conditions de banque</strong>
+                      <div class="text-muted text-small">Taux & commissions</div>
+                    </div>
+                    <div class="grid-fields">
+                      <div class="field-group">
+                        <label>Type du taux sollicité</label>
+                        <select [(ngModel)]="sollicitationFormPayload.typeTauxSollicite">
+                          <option *ngFor="let t of typesTaux" [value]="t">{{ t }}</option>
+                        </select>
+                      </div>
+                      <div class="field-group">
+                        <label>Marge (%)</label>
+                        <input type="number" step="0.01" [(ngModel)]="sollicitationFormPayload.marge">
+                      </div>
+                      <div class="field-group">
+                        <label>Taux sollicité (%)</label>
+                        <input type="number" step="0.01" [(ngModel)]="sollicitationFormPayload.tauxSollicite">
+                      </div>
+                      <div class="field-group">
+                        <label>Type de commission</label>
+                        <select [(ngModel)]="sollicitationFormPayload.typeCommission">
+                          <option *ngFor="let c of typesCommission" [value]="c">{{ c }}</option>
+                        </select>
+                      </div>
+                      <div class="field-group">
+                        <label>Commission forfaitaire sollicitée (DT)</label>
+                        <input type="number" step="0.001"
+                          [(ngModel)]="sollicitationFormPayload.commissionForfaitaireSollicitee">
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Right: Conditions réglementaires (Informational) -->
+                  <div class="regulatory-conditions-card">
+                    <div class="reg-header">
+                      <span class="reg-icon">ℹ</span> Conditions réglementaires
+                    </div>
+                    <div class="reg-body">
+                      <div class="reg-item">
+                        <span class="reg-label">Taux d'intérêt</span>
+                        <span class="reg-value badge-light">- % (TMM+%)</span>
+                      </div>
+                      <div class="reg-item">
+                        <span class="reg-label">Comm. d'étude</span>
+                        <span class="reg-value">- % Flat</span>
+                      </div>
+                      <div class="reg-item">
+                        <span class="reg-label">Comm. d'engagement</span>
+                        <span class="reg-value">- % / an</span>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Section: Schéma Investissement / Financement Sollicité -->
+            <div class="content-card mt-4">
+              <div class="card-header d-flex align-items-center">
+                <span class="card-icon">🏛</span>
+                <div>
+                  <strong>Schéma Investissement/Financement</strong>
+                  <div class="card-subtitle text-muted">Sollicité</div>
+                </div>
+              </div>
+              <div class="card-body">
+
+                <div class="twin-tables-wrapper">
+
+                  <!-- Left: INVESTISSEMENT Table -->
+                  <div class="schema-table-card">
+                    <div class="table-header-bar d-flex justify-content-between align-items-center">
+                      <span>INVESTISSEMENT</span>
+                      <button type="button" class="btn-add-row" (click)="addPosteInvestissement()">+ Ajouter
+                        poste</button>
+                    </div>
+                    <div class="table-wrapper">
+                      <table class="data-table">
+                        <thead>
+                          <tr>
+                            <th>INVESTISSEMENT</th>
+                            <th class="text-right">MONTANT SOLLICITÉ</th>
+                            <th class="text-right">POURCENTAGE</th>
+                            <th class="text-center" style="width: 40px;">🗑</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let row of sollicitationFormPayload.postesInvestissement; let i = index">
+                            <td>
+                              <input type="text" [(ngModel)]="row.libelle" placeholder="Libellé poste investissement..."
+                                class="table-input">
+                            </td>
+                            <td class="text-right">
+                              <input type="number" min="0" step="0.001" [(ngModel)]="row.montantSollicite"
+                                placeholder="0.000" class="table-input text-right">
+                            </td>
+                            <td class="text-right font-medium">
+                              {{ percentageInvestissement(row.montantSollicite) | number:'1.2-2' }}%
+                            </td>
+                            <td class="text-center">
+                              <button type="button" class="btn-delete-icon"
+                                (click)="removePosteInvestissement(i)">✕</button>
+                            </td>
+                          </tr>
+                          <tr
+                            *ngIf="!sollicitationFormPayload.postesInvestissement || sollicitationFormPayload.postesInvestissement.length === 0">
+                            <td colspan="4" class="text-center text-muted p-4">
+                              Aucune ligne pour le moment. Cliquez sur "+ Ajouter poste".
+                            </td>
+                          </tr>
+                        </tbody>
+                        <tfoot>
+                          <tr class="total-footer-row">
+                            <td>Total Investissement Sollicité :</td>
+                            <td class="text-right font-bold">{{ totalInvestissement | number:'1.3-3' }} DT</td>
+                            <td class="text-right font-bold">{{ totalInvestissementPercentage }}%</td>
+                            <td></td>
+                          </tr>
+                        </tfoot>
+                      </table>
+                    </div>
+                  </div>
+
+                  <!-- Right: FINANCEMENT Table -->
+                  <div class="schema-table-card">
+                    <div class="table-header-bar d-flex justify-content-between align-items-center">
+                      <span>FINANCEMENT</span>
+                      <button type="button" class="btn-add-row" (click)="addPosteFinancement()">+ Ajouter poste</button>
+                    </div>
+                    <div class="table-wrapper">
+                      <table class="data-table">
+                        <thead>
+                          <tr>
+                            <th>FINANCEMENT</th>
+                            <th class="text-right">MONTANT SOLLICITÉ</th>
+                            <th class="text-right">POURCENTAGE</th>
+                            <th class="text-center" style="width: 40px;">🗑</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let row of sollicitationFormPayload.postesFinancement; let i = index">
+                            <td>
+                              <input type="text" [(ngModel)]="row.libelle"
+                                placeholder="Libellé financement (ex: Fonds propres)..." class="table-input">
+                            </td>
+                            <td class="text-right">
+                              <input type="number" min="0" step="0.001" [(ngModel)]="row.montantSollicite"
+                                placeholder="0.000" class="table-input text-right">
+                            </td>
+                            <td class="text-right font-medium">
+                              {{ percentageFinancement(row.montantSollicite) | number:'1.2-2' }}%
+                            </td>
+                            <td class="text-center">
+                              <button type="button" class="btn-delete-icon"
+                                (click)="removePosteFinancement(i)">✕</button>
+                            </td>
+                          </tr>
+                          <tr
+                            *ngIf="!sollicitationFormPayload.postesFinancement || sollicitationFormPayload.postesFinancement.length === 0">
+                            <td colspan="4" class="text-center text-muted p-4">
+                              Aucune ligne pour le moment. Cliquez sur "+ Ajouter poste".
+                            </td>
+                          </tr>
+                        </tbody>
+                        <tfoot>
+                          <tr class="total-footer-row">
+                            <td>Total Financement Sollicité :</td>
+                            <td class="text-right font-bold">{{ totalFinancement | number:'1.3-3' }} DT</td>
+                            <td class="text-right font-bold">{{ totalFinancementPercentage }}%</td>
+                            <td></td>
+                          </tr>
+                        </tfoot>
+                      </table>
+                    </div>
+                  </div>
+
+                </div>
+
+                <!-- Balance Comparison Informational Banner -->
+                <div class="balance-banner-wrapper mt-3" *ngIf="balanceStatus !== 'NONE'">
+                  <div *ngIf="balanceStatus === 'EQUAL'" class="balance-banner balance-equal">
+                    <span class="banner-icon">✓</span> Plan de financement équilibré
+                  </div>
+                  <div *ngIf="balanceStatus === 'DEFICIT'" class="balance-banner balance-deficit">
+                    <span class="banner-icon">⚠️</span> Financement insuffisant de {{ balanceDifference | number:'1.3-3'
+                    }} DT
+                  </div>
+                  <div *ngIf="balanceStatus === 'SURPLUS'" class="balance-banner balance-surplus">
+                    <span class="banner-icon">ℹ️</span> Excédent de financement de {{ balanceDifference | number:'1.3-3'
+                    }} DT
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Section: Garanties Proposées -->
+            <div class="content-card mt-4">
+              <div class="card-header">
+                <span class="card-icon">🛡</span> Garanties Proposées
+              </div>
+              <div class="card-body">
+
+                <!-- Subsection 1: Opérations sur les garanties en notre possession (Existantes) -->
+                <div class="sub-section-title mb-2">
+                  <span>📋 Opérations sur les garanties en notre possession</span>
+                </div>
+                <div class="table-wrapper mb-4">
+                  <table class="data-table">
+                    <thead>
+                      <tr>
+                        <th>Nature de la Garantie</th>
+                        <th class="text-right">Estimation (DT)</th>
+                        <th class="text-center">Date de l'Expertise</th>
+                        <th class="text-right">Charges Inscrites (DT)</th>
+                        <th class="text-center">Opération</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let gar of garantiesEnPossession">
+                        <td>{{ gar.libelle }}</td>
+                        <td class="text-right">{{ gar.valeur | number:'1.3-3' }}</td>
+                        <td class="text-center">{{ gar.dateExpertise ? (gar.dateExpertise | date:'dd/MM/yyyy') : '-' }}
+                        </td>
+                        <td class="text-right font-semibold">{{ gar.charges | number:'1.3-3' }}</td>
+                        <td class="text-center">
+                          <span class="badge-op">Conserver</span>
+                        </td>
+                      </tr>
+                      <tr *ngIf="garantiesEnPossession.length === 0">
+                        <td colspan="5" class="text-center text-muted p-4">
+                          Aucune garantie en possession pour ce client.
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!-- Subsection 1.5: Nouvelles garanties validées -->
+                <div class="sub-section-title mb-2 mt-4" *ngIf="garantiesNouvellesValidees.length > 0">
+                  <span>✅ Nouvelles garanties validées pour la sollicitation</span>
+                </div>
+                <div class="table-wrapper mb-4" *ngIf="garantiesNouvellesValidees.length > 0">
+                  <table class="data-table">
+                    <thead>
+                      <tr>
+                        <th>Nature de la Garantie</th>
+                        <th class="text-right">Estimation (DT)</th>
+                        <th class="text-center">Date de l'Expertise</th>
+                        <th class="text-right">Charges Inscrites (DT)</th>
+                        <th class="text-center">Statut</th>
+                        <th class="text-center" style="width: 60px;">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let gar of garantiesNouvellesValidees">
+                        <td class="font-medium">{{ gar.libelle }}</td>
+                        <td class="text-right">{{ gar.valeur | number:'1.3-3' }}</td>
+                        <td class="text-center">{{ gar.dateExpertise ? (gar.dateExpertise | date:'dd/MM/yyyy') : '-' }}
+                        </td>
+                        <td class="text-right font-semibold">{{ gar.charges | number:'1.3-3' }}</td>
+                        <td class="text-center">
+                          <span class="badge-op badge-new">Nouvelle</span>
+                        </td>
+                        <td class="text-center">
+                          <button type="button" class="btn-delete-icon" (click)="deleteValidatedGarantie(gar.id)"
+                            title="Supprimer cette garantie validée">✕</button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!-- Subsection 2: Saisie de nouvelles garanties -->
+                <div class="sub-section-title d-flex justify-content-between align-items-center mb-2 mt-4">
+                  <span>➕ Saisie de nouvelles garanties</span>
+                  <button type="button" class="btn-secondary-action" (click)="addNouvelleGarantie()">+ Ajouter nouvelle
+                    garantie</button>
+                </div>
+                <div class="table-wrapper">
+                  <table class="data-table">
+                    <thead>
+                      <tr>
+                        <th>Nature de la Garantie</th>
+                        <th class="text-right">Estimation (DT)</th>
+                        <th class="text-center">Date de l'Expertise</th>
+                        <th class="text-right">Charges Inscrites (DT)</th>
+                        <th class="text-center" style="width: 140px;">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let ng of sollicitationFormPayload.nouvellesGaranties; let i = index">
+                        <td>
+                          <input type="text" [(ngModel)]="ng.natureGarantie"
+                            placeholder="ex: Hypothèque 1er rang sur Terrain..." class="table-input">
+                        </td>
+                        <td class="text-right">
+                          <input type="number" min="0" step="0.001" [(ngModel)]="ng.estimation" placeholder="0.000"
+                            class="table-input text-right">
+                        </td>
+                        <td class="text-center">
+                          <input type="date" [(ngModel)]="ng.dateExpertise" class="table-input text-center">
+                        </td>
+                        <td class="text-right">
+                          <input type="number" min="0" step="0.001" [(ngModel)]="ng.chargesInscrites"
+                            placeholder="0.000" class="table-input text-right">
+                        </td>
+                        <td class="text-center">
+                          <div class="d-flex justify-content-center align-items-center gap-2">
+                            <button type="button" class="btn-validate-row"
+                              (click)="saveNouvelleGarantieAsPossession(ng, i)"
+                              title="Valider & ajouter aux garanties validées">✓ Valider</button>
+                            <button type="button" class="btn-delete-row" (click)="removeNouvelleGarantie(i)"
+                              title="Supprimer">✕</button>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr
+                        *ngIf="!sollicitationFormPayload.nouvellesGaranties || sollicitationFormPayload.nouvellesGaranties.length === 0">
+                        <td colspan="5" class="text-center text-muted p-4">
+                          Pas de nouvelles Garanties à traiter ! Cliquez sur "+ Ajouter nouvelle garantie" pour en créer
+                          une.
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Section: Commentaires Direction Régionale -->
+            <div class="commentaires-card mt-4 mb-4">
+              <div class="commentaires-header d-flex align-items-center gap-2">
+                <span class="header-icon">💬</span>
+                <span>Commentaires</span>
+              </div>
+              <div class="commentaires-body">
+                <label class="commentaires-label">Commentaire Direction Régionale</label>
+
+                <!-- Rich Text Toolbar -->
+                <div class="rich-toolbar">
+                  <select class="toolbar-select">
+                    <option>Normal</option>
+                  </select>
+                  <select class="toolbar-select">
+                    <option>Sans Serif</option>
+                  </select>
+                  <div class="toolbar-divider"></div>
+                  <button type="button" class="toolbar-btn font-bold">B</button>
+                  <button type="button" class="toolbar-btn italic">I</button>
+                  <button type="button" class="toolbar-btn underline">U</button>
+                  <button type="button" class="toolbar-btn">A</button>
+                  <button type="button" class="toolbar-btn">AA</button>
+                  <div class="toolbar-divider"></div>
+                  <button type="button" class="toolbar-btn">≡</button>
+                  <button type="button" class="toolbar-btn">≣</button>
+                  <div class="toolbar-divider"></div>
+                  <button type="button" class="toolbar-btn">🔗</button>
+                  <button type="button" class="toolbar-btn">🖼️</button>
+                  <button type="button" class="toolbar-btn">Tₓ</button>
+                </div>
+
+                <!-- Textarea -->
+                <textarea class="commentaires-textarea" rows="4" [(ngModel)]="sollicitationFormPayload.commentaireDr"
+                  placeholder="Saisir votre commentaire pour la Direction Régionale..."></textarea>
+              </div>
+            </div>
+
+            <!-- Footer Save Button -->
+            <div class="canevas-footer d-flex justify-content-center align-items-center p-3 gap-3">
+              <button class="btn-save-canevas" (click)="saveSollicitation()" [disabled]="isSavingSollicitation"
+                title="Met à jour la sollicitation en cours">
+                {{ isSavingSollicitation ? '⏳ Enregistrement...' : '💾 Enregistrer Modifications' }}
+              </button>
+            </div>
+
+          </div>
+
+          <!-- STEP 2: ÉTUDE DU PROJET (PHASE 2) -->
+          <div *ngIf="solliciteActiveStep === 'etude'">
+
+            <!-- Card: Étude du projet -->
+            <div class="content-card">
+              <div class="card-header d-flex align-items-center">
+                <span class="card-icon">🏛</span>
+                <div>
+                  <strong>Étude du projet</strong>
+                  <div class="card-subtitle text-muted">Analyse globale, marché & SWOT</div>
+                </div>
+              </div>
+              <div class="card-body">
+
+                <!-- Section 1: Aperçu du projet -->
+                <div class="field-group mb-4">
+                  <label class="font-bold">Aperçu du projet</label>
+                  <textarea class="form-textarea" rows="4" [(ngModel)]="sollicitationFormPayload.apercuProjet"
+                    placeholder="Résumé global du projet..."></textarea>
+                </div>
+
+                <!-- Section 2: Étude de marché -->
+                <div class="field-group mb-4">
+                  <label class="font-bold">Étude de marché</label>
+                  <textarea class="form-textarea" rows="4" [(ngModel)]="sollicitationFormPayload.etudeMarche"
+                    placeholder="Marché, concurrence, clientèle cible..."></textarea>
+                </div>
+
+                <!-- Section 3: Synthèse de la rentabilité & test de sensibilité -->
+                <div class="field-group mb-4">
+                  <label class="font-bold">Synthèse de la rentabilité & test de sensibilité</label>
+                  <textarea class="form-textarea" rows="4" [(ngModel)]="sollicitationFormPayload.syntheseRentabilite"
+                    placeholder="Principaux indicateurs, hypothèses, scénarios..."></textarea>
+                </div>
+
+                <!-- Section 4: Matrice SWOT -->
+                <div class="swot-section mb-4">
+                  <div class="sub-section-title mb-3">
+                    <span>📊 Matrice SWOT</span>
+                    <span class="text-muted font-normal text-small ms-2">Forces, Faiblesses, Opportunités,
+                      Menaces</span>
+                  </div>
+                  <div class="swot-grid">
+                    <!-- Forces -->
+                    <div class="swot-card forces">
+                      <div class="swot-header">Forces</div>
+                      <textarea class="swot-textarea" rows="4" [(ngModel)]="sollicitationFormPayload.swotForces"
+                        placeholder="Atouts principaux..."></textarea>
+                    </div>
+                    <!-- Faiblesses -->
+                    <div class="swot-card faiblesses">
+                      <div class="swot-header">Faiblesses</div>
+                      <textarea class="swot-textarea" rows="4" [(ngModel)]="sollicitationFormPayload.swotFaiblesses"
+                        placeholder="Points faibles..."></textarea>
+                    </div>
+                    <!-- Opportunités -->
+                    <div class="swot-card opportunites">
+                      <div class="swot-header">Opportunités</div>
+                      <textarea class="swot-textarea" rows="4" [(ngModel)]="sollicitationFormPayload.swotOpportunites"
+                        placeholder="Tendances favorables..."></textarea>
+                    </div>
+                    <!-- Menaces -->
+                    <div class="swot-card menaces">
+                      <div class="swot-header">Menaces</div>
+                      <textarea class="swot-textarea" rows="4" [(ngModel)]="sollicitationFormPayload.swotMenaces"
+                        placeholder="Risques majeurs..."></textarea>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Section 5: Commentaires Étude du projet -->
+            <div class="commentaires-card mt-4 mb-4">
+              <div class="commentaires-header d-flex align-items-center gap-2">
+                <span class="header-icon">💬</span>
+                <span>Commentaires</span>
+              </div>
+              <div class="commentaires-body">
+                <label class="commentaires-label">Commentaires Étude du projet</label>
+
+                <!-- Rich Text Toolbar -->
+                <div class="rich-toolbar">
+                  <select class="toolbar-select">
+                    <option>Normal</option>
+                  </select>
+                  <select class="toolbar-select">
+                    <option>Sans Serif</option>
+                  </select>
+                  <div class="toolbar-divider"></div>
+                  <button type="button" class="toolbar-btn font-bold">B</button>
+                  <button type="button" class="toolbar-btn italic">I</button>
+                  <button type="button" class="toolbar-btn underline">U</button>
+                  <button type="button" class="toolbar-btn">A</button>
+                  <button type="button" class="toolbar-btn">AA</button>
+                  <div class="toolbar-divider"></div>
+                  <button type="button" class="toolbar-btn">≡</button>
+                  <button type="button" class="toolbar-btn">≣</button>
+                  <div class="toolbar-divider"></div>
+                  <button type="button" class="toolbar-btn">🔗</button>
+                  <button type="button" class="toolbar-btn">🖼️</button>
+                  <button type="button" class="toolbar-btn">Tₓ</button>
+                </div>
+
+                <!-- Textarea -->
+                <textarea class="commentaires-textarea" rows="4"
+                  [(ngModel)]="sollicitationFormPayload.commentaireEtudeProjet"
+                  placeholder="Saisir votre commentaire pour l'Étude du projet..."></textarea>
+              </div>
+            </div>
+
+            <!-- Footer Save Button -->
+            <div class="canevas-footer d-flex justify-content-center p-3">
+              <button class="btn-save-canevas" (click)="saveSollicitation()" [disabled]="isSavingSollicitation">
+                {{ isSavingSollicitation ? '⏳ Enregistrement...' : '💾 Enregistrer Canevas' }}
+              </button>
+            </div>
+
+          </div>
+
         </div>
-
       </div>
 
       <!-- ENGAGEMENTS TAB -->
@@ -297,15 +981,18 @@
         <!-- Stepper -->
         <div class="stepper-container">
           <div class="step-line"></div>
-          <div class="step-item" [class.active]="engagementActiveStep === 'Compte et dépôts'" (click)="setEngagementActiveStep('Compte et dépôts')">
+          <div class="step-item" [class.active]="engagementActiveStep === 'Compte et dépôts'"
+            (click)="setEngagementActiveStep('Compte et dépôts')">
             <div class="step-dot"></div>
             <span class="step-label">Compte et dépôts</span>
           </div>
-          <div class="step-item" [class.active]="engagementActiveStep === 'Engagements (BCT, BNA)'" (click)="setEngagementActiveStep('Engagements (BCT, BNA)')">
+          <div class="step-item" [class.active]="engagementActiveStep === 'Engagements (BCT, BNA)'"
+            (click)="setEngagementActiveStep('Engagements (BCT, BNA)')">
             <div class="step-dot"></div>
             <span class="step-label">Engagement (BCT, BNA)</span>
           </div>
-          <div class="step-item" [class.active]="engagementActiveStep === 'Activité'" (click)="setEngagementActiveStep('Activité')">
+          <div class="step-item" [class.active]="engagementActiveStep === 'Activité'"
+            (click)="setEngagementActiveStep('Activité')">
             <div class="step-dot"></div>
             <span class="step-label">Activité</span>
           </div>
@@ -315,310 +1002,903 @@
         <div class="step-content-area" [ngSwitch]="engagementActiveStep">
           <!-- STEP 1: COMPTE ET DEPOTS -->
           <div *ngSwitchCase="'Compte et dépôts'">
-             <div *ngIf="isLoadingEngagements" class="text-center p-4">Chargement...</div>
-             <div *ngIf="!isLoadingEngagements && engagementsActiviteData">
-                
-                <div class="content-card">
-                  <div class="card-header">
-                    <span class="card-icon">≡</span> Liste des comptes valides
-                  </div>
-                  <div class="card-body p-0">
-                    <div class="table-wrapper m-0">
-                      <table class="data-table">
-                        <thead>
-                          <tr>
-                            <th>N° Compte</th>
-                            <th>Date Ouverture</th>
-                            <th>Type d'autorisation</th>
-                            <th>Autorisation</th>
-                            <th>Date Autorisation</th>
-                            <th class="text-right">Solde</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr *ngFor="let compte of engagementsActiviteData.comptes">
-                            <td>{{ compte.numeroCompte }}</td>
-                            <td>{{ compte.dateOuverture !== null && compte.dateOuverture !== undefined ? (compte.dateOuverture | date:'dd/MM/yyyy') : '-' }}</td>
-                            <td>{{ compte.typeAutorisation !== null && compte.typeAutorisation !== undefined ? compte.typeAutorisation : '-' }}</td>
-                            <td>{{ compte.autorisation !== null && compte.autorisation !== undefined ? (compte.autorisation | number:'1.3-3') : '-' }}</td>
-                            <td>{{ compte.dateAutorisation !== null && compte.dateAutorisation !== undefined ? (compte.dateAutorisation | date:'dd/MM/yyyy') : '-' }}</td>
-                            <td class="text-right">{{ compte.solde !== null && compte.solde !== undefined ? (compte.solde | number:'1.3-3') : '-' }}</td>
-                          </tr>
-                          <tr *ngIf="!engagementsActiviteData.comptes || engagementsActiviteData.comptes.length === 0">
-                            <td colspan="6" class="text-center text-muted p-3">Aucun compte valide trouvé.</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
+            <div *ngIf="isLoadingEngagements" class="text-center p-4">Chargement...</div>
+            <div *ngIf="!isLoadingEngagements && engagementsActiviteData">
+
+              <div class="content-card">
+                <div class="card-header">
+                  <span class="card-icon">≡</span> Liste des comptes valides
+                </div>
+                <div class="card-body p-0">
+                  <div class="table-wrapper m-0">
+                    <table class="data-table">
+                      <thead>
+                        <tr>
+                          <th>N° Compte</th>
+                          <th>Date Ouverture</th>
+                          <th>Type d'autorisation</th>
+                          <th>Autorisation</th>
+                          <th>Date Autorisation</th>
+                          <th class="text-right">Solde</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let compte of engagementsActiviteData.comptes">
+                          <td>{{ compte.numeroCompte }}</td>
+                          <td>{{ compte.dateOuverture !== null && compte.dateOuverture !== undefined ?
+                            (compte.dateOuverture | date:'dd/MM/yyyy') : '-' }}</td>
+                          <td>{{ compte.typeAutorisation !== null && compte.typeAutorisation !== undefined ?
+                            compte.typeAutorisation : '-' }}</td>
+                          <td>{{ compte.autorisation !== null && compte.autorisation !== undefined ?
+                            (compte.autorisation | number:'1.3-3') : '-' }}</td>
+                          <td>{{ compte.dateAutorisation !== null && compte.dateAutorisation !== undefined ?
+                            (compte.dateAutorisation | date:'dd/MM/yyyy') : '-' }}</td>
+                          <td class="text-right">{{ compte.solde !== null && compte.solde !== undefined ? (compte.solde
+                            | number:'1.3-3') : '-' }}</td>
+                        </tr>
+                        <tr *ngIf="!engagementsActiviteData.comptes || engagementsActiviteData.comptes.length === 0">
+                          <td colspan="6" class="text-center text-muted p-3">Aucun compte valide trouvé.</td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
                 </div>
+              </div>
 
-                <div class="content-card mt-4">
-                  <div class="card-header">
-                    <span class="card-icon">≡</span> Solde algébrique par type de compte
+              <div class="content-card mt-4">
+                <div class="card-header">
+                  <span class="card-icon">≡</span> Solde algébrique par type de compte
+                </div>
+                <div class="card-body p-0">
+                  <div class="table-wrapper m-0" *ngIf="engagementsActiviteData.soldesDisponibles">
+                    <table class="data-table">
+                      <thead>
+                        <tr>
+                          <th>Type de compte</th>
+                          <th class="text-right">Solde algébrique</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let s of engagementsActiviteData.soldesParType">
+                          <td>{{ s.typeCompte }}</td>
+                          <td class="text-right">{{ s.soldeAlgebrique | number:'1.3-3' }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
-                  <div class="card-body p-0">
-                    <div class="table-wrapper m-0" *ngIf="engagementsActiviteData.soldesDisponibles">
-                      <table class="data-table">
-                        <thead>
-                          <tr>
-                            <th>Type de compte</th>
-                            <th class="text-right">Solde algébrique</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr *ngFor="let s of engagementsActiviteData.soldesParType">
-                            <td>{{ s.typeCompte }}</td>
-                            <td class="text-right">{{ s.soldeAlgebrique | number:'1.3-3' }}</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                    <div class="p-4 text-center text-muted" *ngIf="!engagementsActiviteData.soldesDisponibles">
-                      Les données de solde ne sont pas disponibles.
-                    </div>
+                  <div class="p-4 text-center text-muted" *ngIf="!engagementsActiviteData.soldesDisponibles">
+                    Les données de solde ne sont pas disponibles.
                   </div>
                 </div>
+              </div>
 
-             </div>
+            </div>
           </div>
 
           <!-- STEP 3: ACTIVITE -->
           <div *ngSwitchCase="'Activité'">
-             <div *ngIf="isLoadingActivite" class="text-center p-4">Chargement...</div>
-             <div *ngIf="!isLoadingActivite && activiteData">
-                
-                <div class="content-card">
-                  <div class="card-header d-flex flex-column align-items-start">
-                    <div class="d-flex align-items-center">
-                      <span class="card-icon">📈</span> Mouvements confiés
-                    </div>
-                    <span class="text-muted small mt-1" style="font-weight: normal; font-size: 0.85em;">Historique des flux confiés à la BNA / Unité : en Dinars</span>
+            <div *ngIf="isLoadingActivite" class="text-center p-4">Chargement...</div>
+            <div *ngIf="!isLoadingActivite && activiteData">
+
+              <div class="content-card">
+                <div class="card-header d-flex align-items-center">
+                  <span class="card-icon" style="margin-right: 8px;">📈</span>
+                  <strong style="margin-right: 8px; font-weight: 600;">Mouvements confiés</strong>
+                  <span style="font-weight: normal; font-size: 0.85em; opacity: 0.9;">Historique des flux confiés à la
+                    BNA / Unité : en Dinars</span>
+                </div>
+                <div class="card-body p-0">
+                  <div class="table-wrapper m-0" *ngIf="activiteData.dataAvailable">
+                    <table class="data-table">
+                      <thead>
+                        <tr>
+                          <th>Année</th>
+                          <th>Total Mouvement</th>
+                          <th>CA</th>
+                          <th>Part Confiée</th>
+                          <th>Part Engagement</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let act of activiteData.activities">
+                          <td>{{ act.annee }}</td>
+                          <td class="text-right">{{ act.totalMouvement !== null && act.totalMouvement !== undefined ?
+                            (act.totalMouvement | number:'1.3-3') : '-' }}</td>
+                          <td class="text-right">{{ act.ca !== null && act.ca !== undefined ? (act.ca | number:'1.3-3')
+                            : '-' }}</td>
+                          <td class="text-right">{{ act.partConfiee !== null && act.partConfiee !== undefined ?
+                            (act.partConfiee | number:'1.2-2') + '%' : '-' }}</td>
+                          <td class="text-right">{{ act.partEngagement !== null && act.partEngagement !== undefined ?
+                            (act.partEngagement | number:'1.2-2') + '%' : '-' }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
-                  <div class="card-body p-0">
-                    <div class="table-wrapper m-0" *ngIf="activiteData.dataAvailable">
-                      <table class="data-table">
-                        <thead>
-                          <tr>
-                            <th>Année</th>
-                            <th class="text-right">Total Mouvement</th>
-                            <th class="text-right">CA</th>
-                            <th class="text-right">Part Confiée</th>
-                            <th class="text-right">Part Engagement</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr *ngFor="let act of activiteData.activities">
-                            <td>{{ act.annee }}</td>
-                            <td class="text-right">{{ act.totalMouvement !== null && act.totalMouvement !== undefined ? (act.totalMouvement | number:'1.3-3') : '-' }}</td>
-                            <td class="text-right">{{ act.ca !== null && act.ca !== undefined ? (act.ca | number:'1.3-3') : '-' }}</td>
-                            <td class="text-right">{{ act.partConfiee !== null && act.partConfiee !== undefined ? (act.partConfiee | number:'1.2-2') + '%' : '-' }}</td>
-                            <td class="text-right">{{ act.partEngagement !== null && act.partEngagement !== undefined ? (act.partEngagement | number:'1.2-2') + '%' : '-' }}</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                    <div class="p-4 text-center text-muted font-medium" *ngIf="!activiteData.dataAvailable">
-                      Aucune donnée d'activité n'est disponible.
-                    </div>
+                  <div class="p-4 text-center text-muted font-medium" *ngIf="!activiteData.dataAvailable">
+                    Aucune donnée d'activité n'est disponible.
                   </div>
                 </div>
-                
-             </div>
+              </div>
+
+            </div>
           </div>
 
           <!-- STEP 2: ENGAGEMENT (BCT, BNA) -->
           <div *ngSwitchCase="'Engagements (BCT, BNA)'">
-             <div *ngIf="isLoadingEngagements" class="text-center p-4">Chargement...</div>
-             <div *ngIf="!isLoadingEngagements && engagementsActiviteData">
-                
-                <!-- Card 1: Engagements BNA (DT) -->
-                <div class="content-card">
-                  <div class="card-header">
-                    <span class="card-icon">📊</span> Engagements BNA (DT)
-                  </div>
-                  <div class="card-body p-0">
-                    <div class="table-wrapper m-0">
-                      <table class="data-table">
-                        <thead>
-                          <tr>
-                            <th style="width: 40px;"></th>
-                            <th>Forme</th>
-                            <th class="text-right">Autorisé</th>
-                            <th class="text-center">Echéance</th>
-                            <th class="text-right">Encours</th>
-                            <th class="text-right">Impayés</th>
-                            <th class="text-right">IR</th>
-                            <th class="text-center">Ancienneté des Impayés</th>
+            <div *ngIf="isLoadingEngagements" class="text-center p-4">Chargement...</div>
+            <div *ngIf="!isLoadingEngagements && engagementsActiviteData">
+
+              <!-- Card 1: Engagements BNA (DT) -->
+              <div class="content-card">
+                <div class="card-header">
+                  <span class="card-icon">📊</span> Engagements BNA (DT)
+                </div>
+                <div class="card-body p-0">
+                  <div class="table-wrapper m-0">
+                    <table class="data-table">
+                      <thead>
+                        <tr>
+                          <th style="width: 40px;"></th>
+                          <th>Forme</th>
+                          <th class="text-right">Autorisé</th>
+                          <th class="text-center">Echéance</th>
+                          <th class="text-right">Encours</th>
+                          <th class="text-right">Impayés</th>
+                          <th class="text-right">IR</th>
+                          <th class="text-center">Ancienneté des Impayés</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <ng-container *ngFor="let row of engagementsActiviteData.engagementsBna">
+                          <!-- Parent Row -->
+                          <tr class="clickable-row" (click)="toggleEngagementRow(row.code)">
+                            <td class="text-center cursor-pointer">
+                              <span class="expand-arrow" [class.expanded]="expandedEngagementCode === row.code">
+                                {{ expandedEngagementCode === row.code ? '▼' : '❯' }}
+                              </span>
+                            </td>
+                            <td class="font-semibold">{{ row.forme }}</td>
+                            <td class="text-right">{{ row.autorise !== null && row.autorise !== undefined ?
+                              (row.autorise | number:'1.0-0') : '' }}</td>
+                            <td class="text-center">{{ row.echeance ? (row.echeance | date:'dd/MM/yyyy') : '----' }}
+                            </td>
+                            <td class="text-right font-semibold">{{ row.encours !== null && row.encours !== undefined ?
+                              (row.encours | number:'1.0-0') : '' }}</td>
+                            <td class="text-right">{{ row.impayes !== null && row.impayes !== undefined ? (row.impayes |
+                              number:'1.0-0') : '' }}</td>
+                            <td class="text-right">{{ row.ir !== null && row.ir !== undefined ? (row.ir |
+                              number:'1.0-0') : '' }}</td>
+                            <td class="text-center">{{ row.ancienneteImpayes || '' }}</td>
                           </tr>
-                        </thead>
-                        <tbody>
-                          <ng-container *ngFor="let row of engagementsActiviteData.engagementsBna">
-                            <!-- Parent Row -->
-                            <tr class="clickable-row" (click)="toggleEngagementRow(row.code)">
-                              <td class="text-center cursor-pointer">
-                                <span class="expand-arrow" [class.expanded]="expandedEngagementCode === row.code">
-                                  {{ expandedEngagementCode === row.code ? '▼' : '❯' }}
-                                </span>
-                              </td>
-                              <td class="font-semibold">{{ row.forme }}</td>
-                              <td class="text-right">{{ row.autorise !== null && row.autorise !== undefined ? (row.autorise | number:'1.0-0') : '' }}</td>
-                              <td class="text-center">{{ row.echeance ? (row.echeance | date:'dd/MM/yyyy') : '----' }}</td>
-                              <td class="text-right font-semibold">{{ row.encours !== null && row.encours !== undefined ? (row.encours | number:'1.0-0') : '' }}</td>
-                              <td class="text-right">{{ row.impayes !== null && row.impayes !== undefined ? (row.impayes | number:'1.0-0') : '' }}</td>
-                              <td class="text-right">{{ row.ir !== null && row.ir !== undefined ? (row.ir | number:'1.0-0') : '' }}</td>
-                              <td class="text-center">{{ row.ancienneteImpayes || '' }}</td>
-                            </tr>
 
-                            <!-- Expanded Child Detail Row -->
-                            <tr *ngIf="expandedEngagementCode === row.code" class="expanded-row">
-                              <td colspan="8" class="p-3 bg-light-detail">
-                                <div class="detail-container">
-                                  <div class="detail-header-title text-uppercase font-bold mb-2 text-warning-dark">
-                                    {{ row.detailsTitle || ('DÉTAILS : ' + row.forme) }}
-                                  </div>
-                                  
-                                  <!-- Child Table for BPN / CMT (10 Columns) -->
-                                  <table class="data-table child-detail-table w-100" *ngIf="row.code === 'BPN' || row.code === 'CMT'">
-                                    <thead>
-                                      <tr>
-                                        <th>Num. Décision Crd.</th>
-                                        <th class="text-right">Autorisé</th>
-                                        <th class="text-right">Utilisé</th>
-                                        <th>Forme de Crédit</th>
-                                        <th class="text-center">Éch. Finale</th>
-                                        <th class="text-right">À Échoir en Principal</th>
-                                        <th class="text-right">Impayés (P + I)</th>
-                                        <th class="text-right">IR</th>
-                                        <th class="text-center">Ancienneté</th>
-                                        <th class="text-center">Détails Impayés</th>
-                                      </tr>
-                                    </thead>
-                                    <tbody>
-                                      <tr *ngFor="let det of row.details">
-                                        <td>{{ det.numDecisionCrd || '' }}</td>
-                                        <td class="text-right">{{ det.autorise !== null && det.autorise !== undefined ? (det.autorise | number:'1.0-0') : '' }}</td>
-                                        <td class="text-right">{{ det.utilise !== null && det.utilise !== undefined ? (det.utilise | number:'1.0-0') : '' }}</td>
-                                        <td>{{ det.formeCredit }}</td>
-                                        <td class="text-center">{{ det.echFinale ? (det.echFinale | date:'dd/MM/yyyy') : '' }}</td>
-                                        <td class="text-right">{{ det.aEchoirEnPrincipal !== null && det.aEchoirEnPrincipal !== undefined ? (det.aEchoirEnPrincipal | number:'1.0-0') : '' }}</td>
-                                        <td class="text-right">{{ det.impayesPI !== null && det.impayesPI !== undefined ? (det.impayesPI | number:'1.0-0') : '' }}</td>
-                                        <td class="text-right">{{ det.ir !== null && det.ir !== undefined ? (det.ir | number:'1.0-0') : '' }}</td>
-                                        <td class="text-center">{{ det.anciennete || '' }}</td>
-                                        <td class="text-center">{{ det.detailsImpayes || '' }}</td>
-                                      </tr>
-
-                                      <!-- Empty State if no detail rows -->
-                                      <tr *ngIf="!row.details || row.details.length === 0">
-                                        <td colspan="10" class="text-center text-muted p-2">Aucun détail disponible pour cet engagement.</td>
-                                      </tr>
-
-                                      <!-- Subtotal Row -->
-                                      <tr *ngIf="row.details && row.details.length > 0" class="subtotal-row font-bold">
-                                        <td>{{ row.subtotalLabel || ('S/ Total ' + row.forme) }}</td>
-                                        <td class="text-right">{{ row.autorise !== null && row.autorise !== undefined ? (row.autorise | number:'1.0-0') : '' }}</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td class="text-right">0</td>
-                                        <td class="text-right">0</td>
-                                        <td class="text-right">0</td>
-                                        <td></td>
-                                        <td></td>
-                                      </tr>
-                                    </tbody>
-                                  </table>
-
-                                  <!-- Standard Child Table for other engagements (9 Columns) -->
-                                  <table class="data-table child-detail-table w-100" *ngIf="row.code !== 'BPN' && row.code !== 'CMT'">
-                                    <thead>
-                                      <tr>
-                                        <th>Forme de Crédit</th>
-                                        <th>Num. Compte</th>
-                                        <th class="text-right">Autorisé</th>
-                                        <th class="text-center">Echéance</th>
-                                        <th class="text-right">Encours</th>
-                                        <th class="text-right">Impayés</th>
-                                        <th class="text-right">IR</th>
-                                        <th class="text-center">Ancienneté</th>
-                                        <th class="text-center">Détails Impayés</th>
-                                      </tr>
-                                    </thead>
-                                    <tbody>
-                                      <tr *ngFor="let det of row.details">
-                                        <td>{{ det.formeCredit }}</td>
-                                        <td>{{ det.numCompte || '' }}</td>
-                                        <td class="text-right">{{ det.autorise !== null && det.autorise !== undefined ? (det.autorise | number:'1.0-0') : '' }}</td>
-                                        <td class="text-center">{{ det.echeance ? (det.echeance | date:'dd/MM/yyyy') : '----' }}</td>
-                                        <td class="text-right font-semibold">{{ det.encours !== null && det.encours !== undefined ? (det.encours | number:'1.0-0') : '' }}</td>
-                                        <td class="text-right">{{ det.impayes !== null && det.impayes !== undefined ? (det.impayes | number:'1.0-0') : '' }}</td>
-                                        <td class="text-right">{{ det.ir !== null && det.ir !== undefined ? (det.ir | number:'1.0-0') : '' }}</td>
-                                        <td class="text-center">{{ det.anciennete || '' }}</td>
-                                        <td class="text-center">{{ det.detailsImpayes || '' }}</td>
-                                      </tr>
-
-                                      <!-- Empty State if no detail rows -->
-                                      <tr *ngIf="!row.details || row.details.length === 0">
-                                        <td colspan="9" class="text-center text-muted p-2">Aucun détail disponible pour cet engagement.</td>
-                                      </tr>
-
-                                      <!-- Subtotal Row -->
-                                      <tr *ngIf="row.details && row.details.length > 0" class="subtotal-row font-bold">
-                                        <td>{{ row.subtotalLabel || ('S/ Total ' + row.forme) }}</td>
-                                        <td></td>
-                                        <td class="text-right">{{ row.autorise !== null && row.autorise !== undefined ? (row.autorise | number:'1.0-0') : '' }}</td>
-                                        <td></td>
-                                        <td class="text-right">{{ row.encours !== null && row.encours !== undefined ? (row.encours | number:'1.0-0') : '' }}</td>
-                                        <td class="text-right">{{ row.impayes !== null && row.impayes !== undefined ? (row.impayes | number:'1.0-0') : '' }}</td>
-                                        <td class="text-right">{{ row.ir !== null && row.ir !== undefined ? (row.ir | number:'1.0-0') : '' }}</td>
-                                        <td></td>
-                                        <td></td>
-                                      </tr>
-                                    </tbody>
-                                  </table>
+                          <!-- Expanded Child Detail Row -->
+                          <tr *ngIf="expandedEngagementCode === row.code" class="expanded-row">
+                            <td colspan="8" class="p-3 bg-light-detail">
+                              <div class="detail-container">
+                                <div class="detail-header-title text-uppercase font-bold mb-2 text-warning-dark">
+                                  {{ row.detailsTitle || ('DÉTAILS : ' + row.forme) }}
                                 </div>
-                              </td>
-                            </tr>
-                          </ng-container>
 
-                          <!-- Total Footer Row -->
-                          <tr class="total-footer-row font-bold">
-                            <td></td>
-                            <td>TOTAL</td>
-                            <td class="text-right">0</td>
-                            <td class="text-center">----</td>
-                            <td class="text-right">25 153 851</td>
-                            <td class="text-right">0</td>
-                            <td class="text-right">0</td>
-                            <td class="text-center"></td>
+                                <!-- Child Table for BPN / CMT (10 Columns) -->
+                                <table class="data-table child-detail-table w-100"
+                                  *ngIf="row.code === 'BPN' || row.code === 'CMT'">
+                                  <thead>
+                                    <tr>
+                                      <th>Num. Décision Crd.</th>
+                                      <th class="text-right">Autorisé</th>
+                                      <th class="text-right">Utilisé</th>
+                                      <th>Forme de Crédit</th>
+                                      <th class="text-center">Éch. Finale</th>
+                                      <th class="text-right">À Échoir en Principal</th>
+                                      <th class="text-right">Impayés (P + I)</th>
+                                      <th class="text-right">IR</th>
+                                      <th class="text-center">Ancienneté</th>
+                                      <th class="text-center">Détails Impayés</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr *ngFor="let det of row.details">
+                                      <td>{{ det.numDecisionCrd || '' }}</td>
+                                      <td class="text-right">{{ det.autorise !== null && det.autorise !== undefined ?
+                                        (det.autorise | number:'1.0-0') : '' }}</td>
+                                      <td class="text-right">{{ det.utilise !== null && det.utilise !== undefined ?
+                                        (det.utilise | number:'1.0-0') : '' }}</td>
+                                      <td>{{ det.formeCredit }}</td>
+                                      <td class="text-center">{{ det.echFinale ? (det.echFinale | date:'dd/MM/yyyy') :
+                                        '' }}</td>
+                                      <td class="text-right">{{ det.aEchoirEnPrincipal !== null &&
+                                        det.aEchoirEnPrincipal !== undefined ? (det.aEchoirEnPrincipal | number:'1.0-0')
+                                        : '' }}</td>
+                                      <td class="text-right">{{ det.impayesPI !== null && det.impayesPI !== undefined ?
+                                        (det.impayesPI | number:'1.0-0') : '' }}</td>
+                                      <td class="text-right">{{ det.ir !== null && det.ir !== undefined ? (det.ir |
+                                        number:'1.0-0') : '' }}</td>
+                                      <td class="text-center">{{ det.anciennete || '' }}</td>
+                                      <td class="text-center">{{ det.detailsImpayes || '' }}</td>
+                                    </tr>
+
+                                    <!-- Empty State if no detail rows -->
+                                    <tr *ngIf="!row.details || row.details.length === 0">
+                                      <td colspan="10" class="text-center text-muted p-2">Aucun détail disponible pour
+                                        cet engagement.</td>
+                                    </tr>
+
+                                    <!-- Subtotal Row -->
+                                    <tr *ngIf="row.details && row.details.length > 0" class="subtotal-row font-bold">
+                                      <td>{{ row.subtotalLabel || ('S/ Total ' + row.forme) }}</td>
+                                      <td class="text-right">{{ row.autorise !== null && row.autorise !== undefined ?
+                                        (row.autorise | number:'1.0-0') : '' }}</td>
+                                      <td></td>
+                                      <td></td>
+                                      <td></td>
+                                      <td class="text-right">0</td>
+                                      <td class="text-right">0</td>
+                                      <td class="text-right">0</td>
+                                      <td></td>
+                                      <td></td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+
+                                <!-- Standard Child Table for other engagements (9 Columns) -->
+                                <table class="data-table child-detail-table w-100"
+                                  *ngIf="row.code !== 'BPN' && row.code !== 'CMT'">
+                                  <thead>
+                                    <tr>
+                                      <th>Forme de Crédit</th>
+                                      <th>Num. Compte</th>
+                                      <th class="text-right">Autorisé</th>
+                                      <th class="text-center">Echéance</th>
+                                      <th class="text-right">Encours</th>
+                                      <th class="text-right">Impayés</th>
+                                      <th class="text-right">IR</th>
+                                      <th class="text-center">Ancienneté</th>
+                                      <th class="text-center">Détails Impayés</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr *ngFor="let det of row.details">
+                                      <td>{{ det.formeCredit }}</td>
+                                      <td>{{ det.numCompte || '' }}</td>
+                                      <td class="text-right">{{ det.autorise !== null && det.autorise !== undefined ?
+                                        (det.autorise | number:'1.0-0') : '' }}</td>
+                                      <td class="text-center">{{ det.echeance ? (det.echeance | date:'dd/MM/yyyy') :
+                                        '----' }}</td>
+                                      <td class="text-right font-semibold">{{ det.encours !== null && det.encours !==
+                                        undefined ? (det.encours | number:'1.0-0') : '' }}</td>
+                                      <td class="text-right">{{ det.impayes !== null && det.impayes !== undefined ?
+                                        (det.impayes | number:'1.0-0') : '' }}</td>
+                                      <td class="text-right">{{ det.ir !== null && det.ir !== undefined ? (det.ir |
+                                        number:'1.0-0') : '' }}</td>
+                                      <td class="text-center">{{ det.anciennete || '' }}</td>
+                                      <td class="text-center">{{ det.detailsImpayes || '' }}</td>
+                                    </tr>
+
+                                    <!-- Empty State if no detail rows -->
+                                    <tr *ngIf="!row.details || row.details.length === 0">
+                                      <td colspan="9" class="text-center text-muted p-2">Aucun détail disponible pour
+                                        cet engagement.</td>
+                                    </tr>
+
+                                    <!-- Subtotal Row -->
+                                    <tr *ngIf="row.details && row.details.length > 0" class="subtotal-row font-bold">
+                                      <td>{{ row.subtotalLabel || ('S/ Total ' + row.forme) }}</td>
+                                      <td></td>
+                                      <td class="text-right">{{ row.autorise !== null && row.autorise !== undefined ?
+                                        (row.autorise | number:'1.0-0') : '' }}</td>
+                                      <td></td>
+                                      <td class="text-right">{{ row.encours !== null && row.encours !== undefined ?
+                                        (row.encours | number:'1.0-0') : '' }}</td>
+                                      <td class="text-right">{{ row.impayes !== null && row.impayes !== undefined ?
+                                        (row.impayes | number:'1.0-0') : '' }}</td>
+                                      <td class="text-right">{{ row.ir !== null && row.ir !== undefined ? (row.ir |
+                                        number:'1.0-0') : '' }}</td>
+                                      <td></td>
+                                      <td></td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </div>
+                            </td>
                           </tr>
-                        </tbody>
-                      </table>
-                    </div>
+                        </ng-container>
+
+                        <!-- Total Footer Row -->
+                        <tr class="total-footer-row font-bold"
+                          *ngIf="engagementsActiviteData.engagementsBna && engagementsActiviteData.engagementsBna.length > 0">
+                          <td></td>
+                          <td>TOTAL</td>
+                          <td class="text-right">{{ totalAutorise | number:'1.0-0' }}</td>
+                          <td class="text-center">----</td>
+                          <td class="text-right">{{ totalEncours | number:'1.0-0' }}</td>
+                          <td class="text-right">{{ totalImpayes | number:'1.0-0' }}</td>
+                          <td class="text-right">{{ totalIr | number:'1.0-0' }}</td>
+                          <td class="text-center"></td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
                 </div>
+              </div>
 
-                <!-- Card 2: Engagement BCT (DT) -->
-                <div class="content-card mt-4">
-                  <div class="card-header">
-                    <span class="card-icon">📊</span> Engagement BCT (DT)
-                  </div>
-                  <div class="card-body p-4 text-center text-muted">
-                    Les données d'engagement BCT sont en cours d'intégration.
-                  </div>
+              <!-- Card 2: Engagement BCT (DT) -->
+              <div class="content-card mt-4">
+                <div class="card-header">
+                  <span class="card-icon">📊</span> Engagement BCT (DT)
                 </div>
+                <div class="card-body p-4 text-center text-muted">
+                  Les données d'engagement BCT sont en cours d'intégration.
+                </div>
+              </div>
 
-             </div>
+            </div>
           </div>
 
           <!-- OTHER STEPS -->
           <div *ngSwitchDefault>
-             <div class="content-card">
-               <div class="card-body text-center text-muted p-5">
-                 Fonctionnalité à venir.
-               </div>
-             </div>
+            <div class="content-card">
+              <div class="card-body text-center text-muted p-5">
+                Fonctionnalité à venir.
+              </div>
+            </div>
           </div>
+        </div>
+      </div>
+
+
+      <!-- GARANTIES TAB -->
+      <div *ngSwitchCase="'Garanties'">
+        <div *ngIf="isLoadingGaranties" class="text-center p-4">Chargement des garanties...</div>
+
+        <ng-container *ngIf="!isLoadingGaranties && garantiesData">
+
+          <div class="bna-garanties-container">
+            <div class="table-responsive table-wrapper">
+              <table class="bna-garanties-table">
+                <thead>
+                  <tr class="super-header-row">
+                    <th rowspan="2" class="th-garantie">GARANTIE (nature + réf bien)</th>
+                    <th colspan="5" class="th-donnees-header">DONNÉES GARANTIE</th>
+                    <th colspan="4" class="th-charges-header">CHARGES INSCRITES</th>
+                  </tr>
+                  <tr class="sub-header-row">
+                    <th>CONSISTANCE</th>
+                    <th class="text-right">VALEUR</th>
+                    <th class="text-center">EXPERTISE</th>
+                    <th class="text-center">RANG</th>
+                    <th>BENEFICIAIRE</th>
+                    <th class="text-right">CHARGES</th>
+                    <th>AFFECTATION</th>
+                    <th class="text-center">numSeqGar</th>
+                    <th class="text-center">ID crédit</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <ng-container *ngFor="let gar of garantiesData.garanties">
+                    <!-- Main Guarantee Row -->
+                    <tr class="garantie-main-row">
+                      <td class="td-garantie-libelle">{{ gar.libelle }}</td>
+                      <td class="text-center">{{ gar.consistance || '-' }}</td>
+                      <td class="text-right">{{ gar.valeur | number:'1.0-0' }}</td>
+                      <td class="text-center">{{ gar.dateExpertise ? (gar.dateExpertise | date:'dd/MM/yyyy') : '-' }}
+                      </td>
+                      <td class="text-center">{{ gar.rang || '-' }}</td>
+                      <td>{{ gar.beneficiaire || '-' }}</td>
+                      <td class="text-right font-semibold">{{ gar.charges | number:'1.0-0' }}</td>
+                      <td class="text-center">{{ gar.affectation || '-' }}</td>
+                      <td class="text-center">{{ gar.numSeqGar || '-' }}</td>
+                      <td class="text-center">{{ gar.idCredit || '-' }}</td>
+                    </tr>
+                    <!-- Subtotal Row 1: Total Charges Inscrites -->
+                    <tr class="subtotal-row">
+                      <td colspan="3"></td>
+                      <td colspan="3" class="text-center subtotal-label">Total Charges Inscrites</td>
+                      <td class="text-right font-semibold">{{ gar.charges | number:'1.0-0' }}</td>
+                      <td colspan="3"></td>
+                    </tr>
+                    <!-- Subtotal Row 2: Dont BNA -->
+                    <tr class="subtotal-row">
+                      <td colspan="3"></td>
+                      <td colspan="3" class="text-center subtotal-label">Dont BNA</td>
+                      <td class="text-right font-semibold">{{ (gar.beneficiaire === 'BANQUE NATIONALE AGRICOLE' ?
+                        gar.charges : 0) | number:'1.0-0' }}</td>
+                      <td colspan="3"></td>
+                    </tr>
+                  </ng-container>
+
+                  <!-- Empty state if no guarantees -->
+                  <tr *ngIf="!garantiesData.garanties || garantiesData.garanties.length === 0">
+                    <td colspan="10" class="text-center text-muted p-4">Aucune garantie disponible pour ce client.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Commentaires Card (Dark Green Banner matching photo) -->
+            <div class="commentaires-card mt-4">
+              <div class="commentaires-header d-flex align-items-center gap-2">
+                <span class="header-icon">💬</span>
+                <span>Commentaires</span>
+              </div>
+              <div class="commentaires-body">
+                <label class="commentaires-label">Commentaire Garantie de Possession - Direction Régionale</label>
+
+                <!-- Rich Text Editor Toolbar -->
+                <div class="rich-toolbar">
+                  <select class="toolbar-select">
+                    <option>Normal</option>
+                  </select>
+                  <select class="toolbar-select">
+                    <option>Sans Serif</option>
+                  </select>
+                  <div class="toolbar-divider"></div>
+                  <button type="button" class="toolbar-btn font-bold">B</button>
+                  <button type="button" class="toolbar-btn italic">I</button>
+                  <button type="button" class="toolbar-btn underline">U</button>
+                  <button type="button" class="toolbar-btn">A</button>
+                  <button type="button" class="toolbar-btn">AA</button>
+                  <div class="toolbar-divider"></div>
+                  <button type="button" class="toolbar-btn">≡</button>
+                  <button type="button" class="toolbar-btn">≣</button>
+                  <div class="toolbar-divider"></div>
+                  <button type="button" class="toolbar-btn">🔗</button>
+                  <button type="button" class="toolbar-btn">🖼️</button>
+                  <button type="button" class="toolbar-btn">Tₓ</button>
+                </div>
+                <!-- Textarea -->
+                <textarea class="commentaires-textarea" rows="4" [(ngModel)]="commentaireGarantie"
+                  placeholder="Saisir votre commentaire..."></textarea>
+              </div>
+            </div>
+
+          </div>
+
+        </ng-container>
+
+        <div *ngIf="!isLoadingGaranties && !garantiesData" class="content-card">
+          <div class="card-body text-center text-muted p-5">
+            Sélectionnez un client pour afficher ses garanties.
+          </div>
+        </div>
+      </div>
+
+
+      <!-- CONDITIONS BANQUE TAB -->
+
+      <div *ngSwitchCase="'Conditions'">
+        <div *ngIf="isLoadingConditions" class="text-center p-4">Chargement...</div>
+
+        <ng-container *ngIf="!isLoadingConditions && conditionsBanqueData">
+
+          <!-- Header Info -->
+          <div class="cb-header-row">
+            <div class="cb-header-item">
+              <span class="cb-header-icon">🏦</span>
+              <div>
+                <div class="cb-header-label">COMPTE</div>
+                <div class="cb-header-value">Condition affectée au Groupe : <strong>{{ conditionsBanqueData.compteGroupe
+                    }}</strong></div>
+              </div>
+            </div>
+            <div class="cb-header-item">
+              <span class="cb-header-icon">⏰</span>
+              <div>
+                <div class="cb-header-label">FIN VALIDITÉ :</div>
+                <div class="cb-header-value cb-date">{{ conditionsBanqueData.finValidite }}</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Les Taux -->
+          <div class="content-card mt-4">
+            <div class="card-header cb-section-header">
+              <span class="cb-section-icon">✕</span>
+              <span>Les Taux</span>
+            </div>
+            <div class="card-body p-0">
+              <table class="data-table cb-table">
+                <thead>
+                  <tr>
+                    <th class="cb-col-designation">Désignations</th>
+                    <th class="cb-col-value cb-underline-header">Taux Préférentiels</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let taux of conditionsBanqueData.taux">
+                    <td class="cb-designation-cell">{{ taux.designation }}</td>
+                    <td class="cb-value-cell">
+                      <ng-container *ngFor="let line of taux.valeur.split('\n'); let last = last">
+                        <span>{{ line }}</span>
+                        <br *ngIf="!last">
+                      </ng-container>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Les Commissions -->
+          <div class="content-card mt-4">
+            <div class="card-header cb-section-header">
+              <span class="cb-section-icon">✕</span>
+              <span>Les Commissions</span>
+            </div>
+            <div class="card-body p-0">
+              <table class="data-table cb-table">
+                <thead>
+                  <tr>
+                    <th class="cb-col-designation">Désignations</th>
+                    <th class="cb-col-value cb-underline-header">Commissions Préférentielles</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let com of conditionsBanqueData.commissions">
+                    <td class="cb-designation-cell">{{ com.designation }}</td>
+                    <td class="cb-value-cell">
+                      <span>{{ com.avecMg }}</span><br>
+                      <span>{{ com.sansMg }}</span><br>
+                      <span>{{ com.garantie }}</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Commentaires -->
+          <div class="content-card mt-4">
+            <div class="card-header cb-section-header">
+              <span class="cb-section-icon">💬</span>
+              <span>Commentaires</span>
+            </div>
+            <div class="card-body">
+              <p class="cb-commentaire-text">{{ conditionsBanqueData.commentaires }}</p>
+            </div>
+          </div>
+
+        </ng-container>
+
+        <div *ngIf="!isLoadingConditions && !conditionsBanqueData" class="content-card">
+          <div class="card-body text-center text-muted p-5">
+            Sélectionnez un client pour afficher ses conditions de banque.
+          </div>
+        </div>
+      </div>
+
+      <!-- AVIS ET DECISION TAB -->
+      <div *ngSwitchCase="'Avis'">
+
+        <!-- History Selector Banner for Avis Tab -->
+        <div class="history-banner mb-4" *ngIf="toutesSollicitations.length > 0">
+          <div class="history-banner-content">
+            <div class="history-banner-left">
+              <div class="history-icon-badge">📜</div>
+              <div class="history-info">
+                <span class="history-title">Historique des Sollicitations</span>
+                <span class="history-subtitle">Sélectionnez la sollicitation à consulter ou décider</span>
+              </div>
+              <div class="history-select-wrapper">
+                <select [ngModel]="selectedSollicitationId" (ngModelChange)="onSollicitationSelectionChange($event)"
+                  class="history-select">
+                  <option *ngFor="let sol of toutesSollicitations" [ngValue]="sol.id">
+                    Demande du {{ sol.dateDemande | date:'dd/MM/yyyy' }} — {{ sol.statut }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="history-banner-right">
+              <span class="sollicitation-badge" [ngClass]="{
+                'badge-acc': sollicitationData?.statut === 'ACCEPTE',
+                'badge-att': sollicitationData?.statut === 'EN_ATTENTE_DECISION',
+                'badge-ref': sollicitationData?.statut === 'REFUSE',
+                'badge-bro': sollicitationData?.statut === 'BROUILLON' || !sollicitationData?.statut
+              }">
+                <ng-container [ngSwitch]="sollicitationData?.statut">
+                  <span *ngSwitchCase="'ACCEPTE'">✔ ACCEPTÉ</span>
+                  <span *ngSwitchCase="'EN_ATTENTE_DECISION'">⏳ EN ATTENTE DE DÉCISION</span>
+                  <span *ngSwitchCase="'REFUSE'">✖ REFUSÉ</span>
+                  <span *ngSwitchDefault>📝 BROUILLON</span>
+                </ng-container>
+              </span>
+              <button class="btn-pdf-header" (click)="exporterPDF()"
+                title="Télécharger la fiche de sollicitation au format PDF">
+                📄 Exporter PDF
+              </button>
+              <button class="btn-new-sollicitation-header" (click)="prepareBlankSollicitation()"
+                title="Saisir une nouvelle sollicitation">
+                ➕ Nouvelle Sollicitation
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CASE 1: Sollicitation NOT saved yet -->
+        <div *ngIf="!sollicitationData?.id || sollicitationData?.statut === 'BROUILLON'"
+          class="content-card p-5 text-center">
+          <div class="mb-3 fs-1">📝</div>
+          <h3 class="font-bold text-dark mb-2">Aucune sollicitation enregistrée</h3>
+          <p class="text-muted mb-4" style="max-width: 500px; margin: 0 auto 1.5rem;">
+            Veuillez d'abord remplir et enregistrer le canevas de sollicitation dans l'onglet <strong>Sollicite</strong>
+            pour soumettre la demande à l'étape <strong>Avis et Décision</strong>.
+          </p>
+          <button class="btn-save-canevas" style="margin: 0 auto;" (click)="setActiveTab('Sollicite')">
+            ➔ Aller au Canevas Sollicité
+          </button>
+        </div>
+
+        <!-- CASE 2: Sollicitation IS saved -->
+        <div *ngIf="sollicitationData?.id && sollicitationData?.statut !== 'BROUILLON' && sollicitationFormPayload">
+
+          <!-- Banner Header Statut -->
+          <div class="content-card mb-4 decision-header-card">
+            <div class="card-body d-flex align-items-center justify-content-between">
+              <div>
+                <h3 class="m-0 font-bold text-dark">Avis & Decision Finale</h3>
+                <div class="text-muted text-small">Examen du canevas et prise de decision par la hiérarchie</div>
+              </div>
+              <div class="status-badge-container">
+                <span class="badge badge-warning" *ngIf="sollicitationData?.statut === 'EN_ATTENTE_DECISION'">
+                  ⏳ EN ATTENTE DE DÉCISION
+                </span>
+                <span class="badge badge-success" *ngIf="sollicitationData?.statut === 'ACCEPTE'">
+                  ✔ ACCEPTÉ
+                </span>
+                <span class="badge badge-danger" *ngIf="sollicitationData?.statut === 'REFUSE'">
+                  ✖ REFUSÉ
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Alert banner if already decided -->
+          <div class="alert alert-info mb-4"
+            *ngIf="sollicitationData?.statut === 'ACCEPTE' || sollicitationData?.statut === 'REFUSE'">
+            <strong>Décision enregistrée le {{ sollicitationData?.dateDecision | date:'dd/MM/yyyy' }} :</strong>
+            <span> Sollicitation {{ sollicitationData?.statut === 'ACCEPTE' ? 'Acceptée' : 'Refusée' }}.</span>
+            <div class="mt-1 font-italic" *ngIf="sollicitationData?.commentaireDecision">
+              « {{ sollicitationData?.commentaireDecision }} »
+            </div>
+          </div>
+
+          <!-- Section 1: Demande & Conditions du crédit -->
+          <div class="content-card mb-4">
+            <div class="card-header d-flex align-items-center justify-content-between">
+              <div>
+                <span class="card-icon">📋</span>
+                <strong>Informations du Crédit & Caractéristiques</strong>
+              </div>
+              <span class="text-muted text-small font-italic">🔒 Champs verrouillés / ✅ Montant & Conditions
+                modifiables</span>
+            </div>
+            <div class="card-body">
+
+              <!-- Row 1: Readonly fields from capture -->
+              <div class="grid-3 mb-3">
+                <div class="field-group">
+                  <label class="text-muted">Date de la demande 🔒</label>
+                  <input type="text" [value]="sollicitationFormPayload.dateDemande" disabled
+                    class="form-input readonly-input">
+                </div>
+                <div class="field-group">
+                  <label class="text-muted">Compte de déblocage 🔒</label>
+                  <input type="text" [value]="getSelectedSollicitationCompteKey()" disabled
+                    class="form-input readonly-input">
+                </div>
+                <div class="field-group">
+                  <label class="text-muted">Produit 🔒</label>
+                  <input type="text" [value]="selectedProduit?.libelle || '---'" disabled
+                    class="form-input readonly-input">
+                </div>
+              </div>
+
+              <!-- Row 2: Objet credit, Montant sollicite (EDITABLE EXCEPTION), Duree -->
+              <div class="grid-3 mb-3">
+                <div class="field-group">
+                  <label class="text-muted">Objet du crédit 🔒</label>
+                  <input type="text" [value]="selectedObjetCredit?.libelle || '---'" disabled
+                    class="form-input readonly-input">
+                </div>
+
+                <!-- MONTANT SOLLICITE: EDITABLE -->
+                <div class="field-group highlighted-field">
+                  <label class="font-bold text-success">Montant Sollicité (DT) * ✅</label>
+                  <input type="number" [(ngModel)]="sollicitationFormPayload.montantSollicite"
+                    class="form-input editable-highlight">
+                </div>
+
+                <div class="field-group">
+                  <label class="text-muted">Durée sollicitée (en mois) 🔒</label>
+                  <input type="number" [value]="sollicitationFormPayload.dureeSolliciteeMois" disabled
+                    class="form-input readonly-input">
+                </div>
+              </div>
+
+              <!-- Row 3: Periodicites PL 🔒 -->
+              <div class="grid-3 mb-3">
+                <div class="field-group">
+                  <label class="text-muted">Périodicité (PL) 🔒</label>
+                  <input type="text" [value]="sollicitationFormPayload.periodicitePl" disabled
+                    class="form-input readonly-input">
+                </div>
+                <div class="field-group">
+                  <label class="text-muted">Nbre périodes sollicitées (PL) 🔒</label>
+                  <input type="number" [value]="sollicitationFormPayload.nbrePeriodesSolliciteesPl" disabled
+                    class="form-input readonly-input">
+                </div>
+                <div class="field-group">
+                  <label class="text-muted">Nbre périodes de grâce (PL) 🔒</label>
+                  <input type="number" [value]="sollicitationFormPayload.nbrePeriodesGracePl" disabled
+                    class="form-input readonly-input">
+                </div>
+              </div>
+
+              <!-- Row 4: Periodicites INT 🔒 -->
+              <div class="grid-3 mb-3">
+                <div class="field-group">
+                  <label class="text-muted">Périodicité (Int.) 🔒</label>
+                  <input type="text" [value]="sollicitationFormPayload.periodiciteInt" disabled
+                    class="form-input readonly-input">
+                </div>
+                <div class="field-group">
+                  <label class="text-muted">Nbre périodes sollicitées (Int.) 🔒</label>
+                  <input type="number" [value]="sollicitationFormPayload.nbrePeriodesSolliciteesInt" disabled
+                    class="form-input readonly-input">
+                </div>
+                <div class="field-group">
+                  <label class="text-muted">Nbre périodes de grâce (Int.) 🔒</label>
+                  <input type="number" [value]="sollicitationFormPayload.nbrePeriodesGraceInt" disabled
+                    class="form-input readonly-input">
+                </div>
+              </div>
+
+              <!-- Row 5: Conditions Financieres (EDITABLE ✅) -->
+              <div class="grid-3 mb-3 pt-3 border-top">
+                <div class="field-group">
+                  <label class="font-bold">Type de Taux Sollicité ✅</label>
+                  <select class="form-select" [(ngModel)]="sollicitationFormPayload.typeTauxSollicite">
+                    <option *ngFor="let tt of typesTaux" [value]="tt">{{ tt }}</option>
+                  </select>
+                </div>
+                <div class="field-group">
+                  <label class="font-bold">Marge (%) ✅</label>
+                  <input type="number" step="0.01" [(ngModel)]="sollicitationFormPayload.marge" class="form-input">
+                </div>
+                <div class="field-group">
+                  <label class="font-bold">Taux Sollicité (%) ✅</label>
+                  <input type="number" step="0.01" [(ngModel)]="sollicitationFormPayload.tauxSollicite"
+                    class="form-input">
+                </div>
+              </div>
+
+              <div class="grid-2 mb-2">
+                <div class="field-group">
+                  <label class="font-bold">Type de Commission ✅</label>
+                  <select class="form-select" [(ngModel)]="sollicitationFormPayload.typeCommission">
+                    <option *ngFor="let tc of typesCommission" [value]="tc">{{ tc }}</option>
+                  </select>
+                </div>
+                <div class="field-group">
+                  <label class="font-bold">Commission Forfaitaire (DT) ✅</label>
+                  <input type="number" step="0.001"
+                    [(ngModel)]="sollicitationFormPayload.commissionForfaitaireSollicitee" class="form-input">
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Section 2: Analyse du projet & SWOT (EDITABLE ✅) -->
+          <div class="content-card mb-4">
+            <div class="card-header d-flex align-items-center">
+              <span class="card-icon">📊</span>
+              <strong>Analyse, Étude de Marché & SWOT (Avis)</strong>
+            </div>
+            <div class="card-body">
+              <div class="field-group mb-3">
+                <label class="font-bold">Aperçu du projet ✅</label>
+                <textarea class="form-textarea" rows="3" [(ngModel)]="sollicitationFormPayload.apercuProjet"></textarea>
+              </div>
+
+              <div class="field-group mb-3">
+                <label class="font-bold">Étude de marché ✅</label>
+                <textarea class="form-textarea" rows="3" [(ngModel)]="sollicitationFormPayload.etudeMarche"></textarea>
+              </div>
+
+              <div class="field-group mb-3">
+                <label class="font-bold">Synthèse de la rentabilité & sensibilité ✅</label>
+                <textarea class="form-textarea" rows="3"
+                  [(ngModel)]="sollicitationFormPayload.syntheseRentabilite"></textarea>
+              </div>
+
+              <!-- SWOT Grid -->
+              <div class="swot-section mb-3">
+                <div class="sub-section-title mb-2">Matrice SWOT</div>
+                <div class="swot-grid">
+                  <div class="swot-card forces">
+                    <div class="swot-header">Forces</div>
+                    <textarea class="swot-textarea" rows="3"
+                      [(ngModel)]="sollicitationFormPayload.swotForces"></textarea>
+                  </div>
+                  <div class="swot-card faiblesses">
+                    <div class="swot-header">Faiblesses</div>
+                    <textarea class="swot-textarea" rows="3"
+                      [(ngModel)]="sollicitationFormPayload.swotFaiblesses"></textarea>
+                  </div>
+                  <div class="swot-card opportunites">
+                    <div class="swot-header">Opportunités</div>
+                    <textarea class="swot-textarea" rows="3"
+                      [(ngModel)]="sollicitationFormPayload.swotOpportunites"></textarea>
+                  </div>
+                  <div class="swot-card menaces">
+                    <div class="swot-header">Menaces</div>
+                    <textarea class="swot-textarea" rows="3"
+                      [(ngModel)]="sollicitationFormPayload.swotMenaces"></textarea>
+                  </div>
+                </div>
+              </div>
+
+              <div class="field-group mb-3">
+                <label class="font-bold">Commentaire Direction Régionale ✅</label>
+                <textarea class="form-textarea" rows="3"
+                  [(ngModel)]="sollicitationFormPayload.commentaireDr"></textarea>
+              </div>
+
+              <div class="field-group mb-3">
+                <label class="font-bold">Commentaire Étude du projet ✅</label>
+                <textarea class="form-textarea" rows="3"
+                  [(ngModel)]="sollicitationFormPayload.commentaireEtudeProjet"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section Intermédiaire: Save modifications button -->
+          <div class="canevas-footer d-flex justify-content-center p-3 mb-4">
+            <button class="btn-save-canevas" (click)="saveSollicitation()" [disabled]="isSavingSollicitation">
+              {{ isSavingSollicitation ? '⏳ Enregistrement...' : '💾 Enregistrer les modifications' }}
+            </button>
+          </div>
+
+          <!-- SECTION DECISION FINALE (Si statut = EN_ATTENTE_DECISION) -->
+          <div class="content-card decision-action-card mb-4"
+            *ngIf="sollicitationData?.statut === 'EN_ATTENTE_DECISION'">
+            <div class="card-header bg-gradient-dark text-white d-flex align-items-center gap-2">
+              <span class="card-icon">⚡</span>
+              <strong>Avis et Décision Finale</strong>
+            </div>
+            <div class="card-body p-4">
+
+              <div *ngIf="canMakeDecision">
+                <div class="field-group mb-4">
+                  <label class="font-bold text-dark fs-5">Commentaire de Décision *</label>
+                  <textarea class="form-textarea decision-textarea" rows="4" [(ngModel)]="decisionCommentaire"
+                    placeholder="Saisissez vos observations, réserves ou motifs d'acceptation/refus..."></textarea>
+                </div>
+
+                <div class="d-flex justify-content-center align-items-center gap-3 flex-wrap">
+                  <button class="btn-decision btn-accept" (click)="enregistrerDecision('ACCEPTE')"
+                    [disabled]="isSavingDecision">
+                    ✔ ACCEPTER LA SOLLICITATION
+                  </button>
+                  <button class="btn-decision btn-refuse" (click)="enregistrerDecision('REFUSE')"
+                    [disabled]="isSavingDecision">
+                    ✖ REFUSER LA SOLLICITATION
+                  </button>
+                  <button class="btn-pdf-export" (click)="exporterPDF()"
+                    title="Télécharger la fiche de sollicitation au format PDF">
+                    📄 Exporter PDF
+                  </button>
+                </div>
+              </div>
+
+              <div *ngIf="!canMakeDecision" class="text-center p-3 text-muted">
+                🔒 <em>La décision finale est réservée aux utilisateurs disposant du rôle <strong>Chef de
+                    Division</strong> ou <strong>Admin</strong>.</em>
+              </div>
+
+            </div>
+          </div>
+
         </div>
       </div>
 
@@ -627,7 +1907,8 @@
         <div class="content-card">
           <div class="card-header">{{ activeTab }}</div>
           <div class="card-body">
-            <p class="text-muted">Cet onglet ({{ activeTab }}) fait partie du module signalétique global. Les fonctionnalités associées seront activées dans les prochaines releases.</p>
+            <p class="text-muted">Cet onglet ({{ activeTab }}) fait partie du module signalétique global. Les
+              fonctionnalités associées seront activées dans les prochaines releases.</p>
           </div>
         </div>
       </div>
@@ -772,6 +2053,23 @@
     <div class="modal-footer">
       <button class="btn-cancel" (click)="showAddMandataireModal = false">Annuler</button>
       <button class="btn-save" (click)="saveMandataire()">Ajouter</button>
+    </div>
+  </div>
+</div>
+
+<!-- Custom Confirmation Modal -->
+<div class="modal-overlay" *ngIf="showConfirmModal">
+  <div class="modal-card modal-confirm">
+    <div class="modal-header d-flex align-items-center gap-2">
+      <span class="confirm-icon">⚠️</span>
+      <span>{{ confirmModalTitle }}</span>
+    </div>
+    <div class="modal-body p-4 text-center">
+      <p class="confirm-message">{{ confirmModalMessage }}</p>
+    </div>
+    <div class="modal-footer justify-content-center gap-3">
+      <button type="button" class="btn-cancel" (click)="cancelConfirmModal()">Annuler</button>
+      <button type="button" class="btn-delete-confirm" (click)="executeConfirmModal()">Confirmer</button>
     </div>
   </div>
 </div>

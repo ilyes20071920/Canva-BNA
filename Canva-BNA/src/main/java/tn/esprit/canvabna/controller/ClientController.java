@@ -82,6 +82,16 @@ public class ClientController {
     }
 
     /**
+     * GET /api/clients/{clientId}/conditions-banque
+     */
+    @GetMapping("/{clientId}/conditions-banque")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<tn.esprit.canvabna.dto.ConditionsBanqueResponse> getConditionsBanque(
+            @PathVariable final Long clientId) {
+        return ResponseEntity.ok(clientService.getConditionsBanque(clientId));
+    }
+
+    /**
      * POST /api/clients
      */
     @PostMapping

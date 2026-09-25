@@ -15,6 +15,10 @@ export const routes: Routes = [
         path: 'fiche-client',
         loadComponent: () => import('./dashboard/fiche-client/fiche-client.component').then(m => m.FicheClientComponent)
       },
+      {
+        path: 'liste-decision',
+        loadComponent: () => import('./dashboard/liste-decision/liste-decision.component').then(m => m.ListeDecisionComponent)
+      },
       { path: '', redirectTo: 'users', pathMatch: 'full' }
     ]
   },
